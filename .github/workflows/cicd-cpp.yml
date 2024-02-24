@@ -11,6 +11,8 @@ on:
     branches:
       - dev
       - main
+    paths:
+      - "src/cpp**"
 
 permissions:
   packages: write
@@ -18,6 +20,7 @@ permissions:
 env:
   devContainer_suffix: "-devcontainer"
   devContainer_name: "cpp"
+  devContainer_folder: "src/cpp"
 
 jobs:
   build-and-push:
@@ -41,6 +44,7 @@ jobs:
       - name: Pre-build dev container image
         uses: devcontainers/ci@v0.3
         with:
+          subFolder: ${{env.devContainer_folder}}
           imageName: ghcr.io/${{ github.repository_owner }}/${{env.devContainer_name}}-${{env.devContainer_suffix}}
           cacheFrom: ghcr.io/${{ github.repository_owner }}/${{env.devContainer_name}}-${{env.devContainer_suffix}}
           push: always
