@@ -12,7 +12,8 @@ on:
       - dev
       - main
     paths:
-      - '/src/cpp/**'
+      - 'src/cpp/**'
+      - '.github/workflows/cicd-cpp.yml'
 
 permissions:
   packages: write
