@@ -1,2 +1,2 @@
-# linux-cpp-devcontainer
-Devcontainer that contains the necessities for C++ development on Linux.
+# Devcontainers
+This repository contain the code to generate my devcontainers.
