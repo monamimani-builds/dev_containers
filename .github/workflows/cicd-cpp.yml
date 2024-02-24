@@ -12,7 +12,7 @@ on:
       - dev
       - main
     paths:
-      - "src/cpp**"
+      - "src/cpp/**"
 
 permissions:
   packages: write
