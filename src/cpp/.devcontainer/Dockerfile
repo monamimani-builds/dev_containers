@@ -11,7 +11,7 @@ RUN chmod +x kitware-archive.sh
 RUN sudo ./kitware-archive.sh 
 RUN sudo apt install -y cmake 
 
-RUN  pushd "${VCPKG_ROOT}"
+RUN  pushd "$VCPKG_ROOT"
 RUN  chown -R $(id -u):$(id -g) $PWD
 RUN  git pull --ff-only
 RUN  popd
