@@ -14,6 +14,8 @@ popd
 cmake --version
 ninja --version
 
+echo $PATH
+
 # vcpkg: https://github.com/microsoft/vcpkg/blob/master/README.md#quick-start-unix
 #RUN pushd "$VCPKG_ROOT"
 pushd $VCPKG_ROOT
