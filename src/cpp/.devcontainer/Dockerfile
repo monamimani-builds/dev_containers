@@ -10,14 +10,8 @@ RUN wget https://apt.kitware.com/kitware-archive.sh
 RUN chmod +x kitware-archive.sh
 RUN sudo ./kitware-archive.sh 
 RUN sudo apt install -y cmake 
-# RUN pushd /tmp/ \
-#   echo "Add CMake repo" \
-#   wget https://apt.kitware.com/kitware-archive.sh \
-#   chmod +x kitware-archive.sh \
-#   sudo ./kitware-archive.sh 
 
-#   popd \
-#   sudo apt update \
-#   \
-#   echo "Install CMake" \
-#   sudo apt install -y cmake 
+RUN  pushd "${VCPKG_ROOT}"
+RUN  chown -R $(id -u):$(id -g) $PWD
+RUN  git pull --ff-only
+RUN  popd
