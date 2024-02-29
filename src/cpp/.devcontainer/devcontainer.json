@@ -30,7 +30,7 @@
     "ghcr.io/devcontainers/features/powershell": {},
     "ghcr.io/devcontainers-community/features/llvm": {}
   },
-  "remoteUser": "vscode"
+  //"remoteUser": "vscode"
   // "onCreateCommand": {
   //   "Set postCreate executable flag": "chmod +x .devcontainer/postCreate.sh"
   // },
