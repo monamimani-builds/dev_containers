@@ -11,6 +11,8 @@ sudo ./kitware-archive.sh
 sudo apt install -y cmake
 popd
 
+cmake --version
+ninja --version
 
 # vcpkg: https://github.com/microsoft/vcpkg/blob/master/README.md#quick-start-unix
 #RUN pushd "$VCPKG_ROOT"
@@ -24,5 +26,6 @@ popd
 
 
 # Cleaning
+apt-get autoremove -y
 apt-get clean
 rm -rf /var/lib/apt/lists/*
