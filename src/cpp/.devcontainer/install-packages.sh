@@ -20,8 +20,8 @@ echo $PATH
 #RUN pushd "$VCPKG_ROOT"
 pushd $VCPKG_ROOT
 ls -al
-#&& git config --global --add safe.directory "$VCPKG_ROOT" 
-chown -R $(id -u):$(id -g) $PWD
+#git config --global --add safe.directory "$VCPKG_ROOT" 
+#chown -R $(id -u):$(id -g) $PWD
 git pull --ff-only
 popd
 
