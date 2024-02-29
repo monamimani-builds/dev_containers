@@ -7,15 +7,18 @@ RUN apt-get update && apt-get upgrade -y
 
 RUN sudo apt-get install -y --no-install-recommends software-properties-common
 
+RUN cd /tmp
 RUN wget https://apt.kitware.com/kitware-archive.sh
 RUN chmod +x kitware-archive.sh
 RUN sudo ./kitware-archive.sh 
 RUN sudo apt install -y cmake 
+RUN cd /
 
 #RUN pushd "$VCPKG_ROOT"
 RUN cd $VCPKG_ROOT
-RUN ls -ah
+RUN ls -al
 #RUN git config --global --add safe.directory "$VCPKG_ROOT" 
 #RUN chown -R $(id -u):$(id -g) $PWD
 RUN git pull --ff-only
 #RUN popd
+RUN cd /
