@@ -24,14 +24,16 @@
       ]
     }
   },
-  // "onCreateCommand": {
-  //   "Set postCreate executable flag": "chmod +x .devcontainer/postCreate.sh"
-  // },
-  // "postCreateCommand": "sudo .devcontainer/postCreate.sh",
   "features": {
     "ghcr.io/devcontainers/features/git": {},
     "ghcr.io/devcontainers/features/git-lfs": {},
     "ghcr.io/devcontainers/features/powershell": {},
     "ghcr.io/devcontainers-community/features/llvm": {}
-  }
+  },
+  "remoteUser": "vscode"
+  // "onCreateCommand": {
+  //   "Set postCreate executable flag": "chmod +x .devcontainer/postCreate.sh"
+  // },
+  // "postCreateCommand": "sudo .devcontainer/postCreate.sh",
+
 }

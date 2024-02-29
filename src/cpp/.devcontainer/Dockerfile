@@ -14,7 +14,7 @@ RUN sudo apt install -y cmake
 
 #RUN pushd "$VCPKG_ROOT"
 RUN cd $VCPKG_ROOT
-RUN git config --global --add safe.directory "$VCPKG_ROOT" 
+#RUN git config --global --add safe.directory "$VCPKG_ROOT" 
 #RUN chown -R $(id -u):$(id -g) $PWD
 RUN git pull --ff-only
 #RUN popd
