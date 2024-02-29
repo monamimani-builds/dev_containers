@@ -1,4 +1,5 @@
 FROM mcr.microsoft.com/devcontainers/cpp:ubuntu-22.04
+SHELL ["/bin/bash", "-c"]
 
 ENV VCPKG_INSTALLATION_ROOT=$VCPKG_ROOT
 
