@@ -17,6 +17,7 @@ pushd $VCPKG_ROOT
 #git config --global --add safe.directory "$VCPKG_ROOT" 
 #chown -R $(id -u):$(id -g) $PWD
 git pull --ff-only
+bootstrap-vcpkg.sh
 popd
 
 
