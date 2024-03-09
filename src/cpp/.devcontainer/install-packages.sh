@@ -18,6 +18,7 @@ pushd $VCPKG_ROOT
 #chown -R $(id -u):$(id -g) $PWD
 git pull --ff-only
 bootstrap-vcpkg.sh
+vcpkg x-update-baseline --dry-run
 popd
 
 
