@@ -12,13 +12,12 @@ sudo apt install -y cmake
 popd
 
 # vcpkg: https://github.com/microsoft/vcpkg/blob/master/README.md#quick-start-unix
-#RUN pushd "$VCPKG_ROOT"
 pushd $VCPKG_ROOT
-#git config --global --add safe.directory "$VCPKG_ROOT" 
-#chown -R $(id -u):$(id -g) $PWD
+git config --global --add safe.directory "$VCPKG_ROOT" 
+git config --list
 git pull --ff-only
+git rev-parse HEAD
 bootstrap-vcpkg.sh
-vcpkg x-update-baseline --dry-run
 popd
 
 
