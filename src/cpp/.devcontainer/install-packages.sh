@@ -14,6 +14,7 @@ popd
 # vcpkg: https://github.com/microsoft/vcpkg/blob/master/README.md#quick-start-unix
 pushd $VCPKG_ROOT
 git config --global --add safe.directory "$VCPKG_ROOT" 
+git fetch --unshallow
 git pull --ff-only
 bootstrap-vcpkg.sh
 popd
