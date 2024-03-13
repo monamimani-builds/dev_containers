@@ -3,8 +3,11 @@
 
   "customizations": {
     "vscode": {
-      "extensions": ["ms-azuretools.vscode-docker"]
+      "extensions": [
+        "ms-azuretools.vscode-docker",
+        "EditorConfig.EditorConfig"
+      ]
     }
-  },
+  }
 
 }

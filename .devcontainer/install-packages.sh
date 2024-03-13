@@ -1,28 +1,36 @@
 #!/usr/bin/env bash
 
-apt-get update 
-apt-get upgrade -y
-sudo apt-get install -y --no-install-recommends software-properties-common
+set -e
 
-pushd /tmp/
-wget https://apt.kitware.com/kitware-archive.sh
-chmod +x kitware-archive.sh
-sudo ./kitware-archive.sh
-sudo apt install -y cmake
-popd
-
-# vcpkg: https://github.com/microsoft/vcpkg/blob/master/README.md#quick-start-unix
-# pushd $VCPKG_ROOT
-# git config --system --add safe.directory "$VCPKG_ROOT" 
-# git fetch --unshallow
-# git pull --ff-only
-# bootstrap-vcpkg.sh
-# popd
+apk update 
+apk add --upgrade apk-tools
+echo "upgrade"
+apk upgrade
+echo "add"
+apk add --upgrade \
+    git \
+    bash \
+    mandoc \
+    curl \
+    grep \
+    sudo \
+    docker \
 
 
+# Ensure that login shells get the correct path if the user updated the PATH using ENV.
+rm -f /etc/profile.d/00-restore-env.sh
+echo "export PATH=${PATH//$(sh -lc 'echo $PATH')/\$PATH}" > /etc/profile.d/00-restore-env.sh
+chmod +x /etc/profile.d/00-restore-env.sh
+
+USERNAME=vscode
+USER_UID=1000
+USER_GID=1000
+addgroup --gid $USER_GID $USERNAME
+adduser -s /bin/bash --uid $USER_UID -G $USERNAME --disabled-password $USERNAME
+
+echo vscode ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME
+chmod 0440 /etc/sudoers.d/$USERNAME
 
 # Cleaning
-apt-get remove -y --auto-remove software-properties-common
-apt-get autoremove -y
-apt-get clean
-rm -rf /var/lib/apt/lists/*
+apk cache clean
+rm -rf /var/cache/apk/*

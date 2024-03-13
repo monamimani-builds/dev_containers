@@ -48,4 +48,5 @@ jobs:
           subFolder: ${{env.devContainer_folder}}
           imageName: ghcr.io/${{ github.repository_owner }}/${{env.devContainer_name}}${{env.devContainer_suffix}}
           cacheFrom: ghcr.io/${{ github.repository_owner }}/${{env.devContainer_name}}${{env.devContainer_suffix}}
+          imageTag: latest,${{github.run_id}}
           push: always
