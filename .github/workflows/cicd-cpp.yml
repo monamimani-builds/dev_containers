@@ -1,4 +1,4 @@
-name: Create/Update devcontainer
+name: Cpp devcontainer
 
 
 defaults:
@@ -7,6 +7,9 @@ defaults:
 
 on:
   workflow_dispatch:
+    inputs:
+      imageTag:
+        description: "The tag version for the dev container image."
   push:
     branches:
       - dev
