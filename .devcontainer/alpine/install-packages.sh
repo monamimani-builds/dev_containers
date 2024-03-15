@@ -31,6 +31,9 @@ adduser -s /bin/bash --uid $USER_UID -G $USERNAME --disabled-password $USERNAME
 echo vscode ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME
 chmod 0440 /etc/sudoers.d/$USERNAME
 
+git config user.email "monamimani@gmail.com"
+git config user.name "monamimani"
+
 # Cleaning
 apk cache clean
 rm -rf /var/cache/apk/*

@@ -8,7 +8,8 @@ apt-get update
 apt-get upgrade -y
 apt-get install -y docker
 
-
+git config user.email "monamimani@gmail.com"
+git config user.name "monamimani"
 
 # Cleaning
 apt-get autoremove -y
