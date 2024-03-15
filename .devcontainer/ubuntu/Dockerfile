@@ -7,4 +7,4 @@ FROM mcr.microsoft.com/devcontainers/base:ubuntu
 #     && ./tmp/install-packages.sh \
 #     && rm -f /tmp/install-packages.sh
 
-CMD ["/bin/bash"]
+#CMD ["/bin/bash"]
