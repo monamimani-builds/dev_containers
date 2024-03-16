@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:mantic
 
 # Setup ENV vars for vcpkg
 ENV VCPKG_ROOT=/usr/local/vcpkg \
