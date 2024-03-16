@@ -42,8 +42,9 @@ mkdir -p "${VCPKG_DOWNLOADS}"
 pushd $VCPKG_ROOT
 SHALLOW_CLONE_DATE=$(date -d "-1 years" +%s)
 git clone \
-    --shallow-since=${SHALLOW_CLONE_DATE} \
+    --depth=1 \
     --single-branch \
+    --branch=master \
     --no-tags \
     -c core.eol=lf \
     -c core.autocrlf=false \
@@ -52,9 +53,11 @@ git clone \
     -c receive.fsck.zeroPaddedFilemode=ignore \
     https://github.com/microsoft/vcpkg .
 
+    #--shallow-since=${SHALLOW_CLONE_DATE} \
+
 git config --system --add safe.directory "$VCPKG_ROOT" 
-# git fetch --unshallow
-# git pull --ff-only
+git fetch --unshallow
+git pull --ff-only
 bootstrap-vcpkg.sh
 popd
 
