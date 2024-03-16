@@ -71,6 +71,8 @@ apt-get clean
 rm -rf /var/lib/apt/lists/*
 
 git --version
+cmake --version
+echo "Ninja"
 ninja --version
 gcc --version
 clang --version
