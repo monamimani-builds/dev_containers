@@ -1,9 +1,15 @@
 {
-  "name": "CppDevContainer",
+  "name": "cppdevcontainer",
   "build": {
-    "dockerfile": "Dockerfile"
+    "dockerfile": "Dockerfile",
+    "options": [
+      "-t",
+      "cppdevcontainer"
+    ]
   },
   "runArgs": [
+    "--name",
+    "cppdevcontainer",
     "--cap-add=SYS_PTRACE",
     "--security-opt",
     "seccomp=unconfined"
