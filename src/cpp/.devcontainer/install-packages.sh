@@ -24,7 +24,7 @@ echo "Install LLVM"
 # wget https://apt.llvm.org/llvm.sh
 # chmod +x llvm.sh
 
-# LLVM_VER="18"
+LLVM_VER="18"
 # ./llvm.sh ${LLVM_VER}
 
 apt-get install -y --no-install-recommends clang-${LLVM_VER} lldb-${LLVM_VER} lld-${LLVM_VER} clangd-${LLVM_VER} \
@@ -75,7 +75,7 @@ VCPKG_FORCE_SYSTEM_BINARIES=1 su "${USERNAME}" -c "${VCPKG_ROOT}/vcpkg integrate
 VCPKG_FORCE_SYSTEM_BINARIES=1 su "${USERNAME}" -c "${VCPKG_ROOT}/vcpkg integrate zsh"
 
 # Cleaning
-#apt-get purge software-properties-common
+apt-get purge software-properties-common
 apt-get autoremove -y
 apt-get clean
 rm -rf /var/lib/apt/lists/*
