@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 
 export DEBIAN_FRONTEND=noninteractive
+
+cat > /etc/apt/apt.conf.d/99norecommend << EOF
+APT::Install-Recommends "false";
+APT::Install-Suggests "false";
+EOF
+
 apt-get update 
 apt-get upgrade -y
 apt-get install -y --no-install-recommends git git-lfs sudo wget
@@ -77,6 +83,7 @@ VCPKG_FORCE_SYSTEM_BINARIES=1 su "${USERNAME}" -c "${VCPKG_ROOT}/vcpkg integrate
 apt-get autoremove -y
 apt-get clean
 rm -rf /var/lib/apt/lists/*
+rm -f /etc/apt/apt.conf.d/99norecommend
 
 git --version
 cmake --version
