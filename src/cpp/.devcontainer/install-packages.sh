@@ -31,12 +31,6 @@ apt-get install -y --no-install-recommends clang-${LLVM_VER} lldb-${LLVM_VER} ll
                       clang-tidy-${LLVM_VER} clang-format-${LLVM_VER} libc++-${LLVM_VER}-dev libc++abi-${LLVM_VER}-dev
 popd
 
-
-clang-tools-$LLVM_VERSION
-llvm-$LLVM_VERSION-tools libomp-$LLVM_VERSION-dev 
-libclang-common-$LLVM_VERSION-dev libclang-$LLVM_VERSION-dev 
-libunwind-$LLVM_VERSION-dev
-
 # Set the default clang-tidy, so CMake can find it
 update-alternatives --install /usr/bin/clang-tidy clang-tidy $(which clang-tidy-${LLVM_VER}) 1
 
