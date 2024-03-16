@@ -29,12 +29,15 @@
         "josetr.cmake-language-support-vscode"
       ]
     }
-  }
-  // , "features": {
-  //   "ghcr.io/devcontainers/features/git": {},
-  //   "ghcr.io/devcontainers/features/git-lfs": {},
+  },
+  "features": {
   //   "ghcr.io/devcontainers/features/powershell": {},
-  //   "ghcr.io/devcontainers-community/features/llvm": {}
-  // }
+  "ghcr.io/devcontainers/features/common-utils:2": {
+    "installZsh": false,
+    "installOhMyZsh": false,
+    "installOhMyZshConfig": false,
+    "upgradePackages": false
+  }
+  }
 
 }
