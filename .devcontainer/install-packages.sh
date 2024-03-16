@@ -5,11 +5,11 @@ set -e
 #!/usr/bin/env bash
 
 apt-get update 
-apt-get upgrade -y
-apt-get install -y docker
+apt-get -y upgrade
+apt-get -y install --no-install-recommends git apt-transport-https curl ca-certificates pigz iptables gnupg2 dirmngr wget jq
 
-git config user.email "monamimani@gmail.com"
-git config user.name "monamimani"
+git  config --global user.email "monamimani@gmail.com"
+git config --global user.name "monamimani"
 
 # Cleaning
 apt-get autoremove -y
