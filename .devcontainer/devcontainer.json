@@ -1,6 +1,8 @@
 {
+  "name": "devcontainer",
   "build": { "dockerfile": "Dockerfile" },
   "runArgs": [
+    "--name", "devcontainer",
 		"--cap-add=SYS_PTRACE",
 		"--security-opt",
 		"seccomp=unconfined"
@@ -20,6 +22,11 @@
       "installDockerBuildx": true,
       "azureDnsAutoDetection": false,
       "installDockerComposeSwitch": false
+    },
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
+      "moby": false,
+      "dockerDashComposeVersion": "none",
+      "installDockerBuildx": true
     }
   }
 }
