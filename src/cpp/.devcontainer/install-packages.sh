@@ -43,9 +43,6 @@ pushd $VCPKG_ROOT
 SHALLOW_CLONE_DATE=$(date -d "-1 years" +%s)
 git clone \
     --depth=1 \
-    --single-branch \
-    --branch=master \
-    --no-tags \
     -c core.eol=lf \
     -c core.autocrlf=false \
     -c fsck.zeroPaddedFilemode=ignore \
@@ -54,6 +51,9 @@ git clone \
     https://github.com/microsoft/vcpkg .
 
     #--shallow-since=${SHALLOW_CLONE_DATE} \
+    # --single-branch \
+    # --branch=master \
+    # --no-tags \
 
 git config --system --add safe.directory "$VCPKG_ROOT" 
 git fetch --unshallow
