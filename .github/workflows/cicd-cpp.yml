@@ -45,7 +45,7 @@ jobs:
       #     echo "REPO_OWNER=${GITHUB_REPOSITORY_OWNER@L}" >> $GITHUB_ENV
       #     echo "DEVCONTAINER_PATH=${GITHUB_REPOSITORY@L}-devcontainer" >> $GITHUB_ENV
 
-      - name: Pre-build dev container image
+      - name: Build container image
         uses: devcontainers/ci@v0.3
         with:
           subFolder: ${{env.devContainer_folder}}
@@ -53,7 +53,7 @@ jobs:
           cacheFrom: ghcr.io/${{ github.repository_owner }}/${{env.devContainer_name}}${{env.devContainer_suffix}}
           push: always
 
-      - name: Pre-build dev container image
+      - name: Build container image with image tag
         if: github.event.inputs.image_tag != ''
         uses: devcontainers/ci@v0.3
         with:
