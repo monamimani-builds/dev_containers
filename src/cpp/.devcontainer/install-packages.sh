@@ -70,7 +70,7 @@ VCPKG_FORCE_SYSTEM_BINARIES=1 su "${USERNAME}" -c "${VCPKG_ROOT}/vcpkg integrate
 VCPKG_FORCE_SYSTEM_BINARIES=1 su "${USERNAME}" -c "${VCPKG_ROOT}/vcpkg integrate zsh"
 
 # Cleaning
-apt-get purge software-properties-common
+#apt-get purge software-properties-common
 apt-get autoremove -y
 apt-get clean
 rm -rf /var/lib/apt/lists/*
