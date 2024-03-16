@@ -3,11 +3,13 @@
   "build": {
     "dockerfile": "Dockerfile",
     "options": [
-      "-t devcontainer"
+      "-t",
+      "devcontainer"
     ]
   },
   "runArgs": [
-    "--name devcontainer",
+    "--name",
+    "devcontainer",
     "--cap-add=SYS_PTRACE",
     "--security-opt",
     "seccomp=unconfined"
