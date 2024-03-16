@@ -35,7 +35,7 @@ update-alternatives --install /usr/bin/clang++ clang++ $(which clang++-${LLVM_VE
 mkdir -p "${VCPKG_ROOT}"
 mkdir -p "${VCPKG_DOWNLOADS}"
 pushd $VCPKG_ROOT
-SHALLOW_CLONE_DATE=$(date -v-1Y +%s)
+SHALLOW_CLONE_DATE=$(date -d "-1 years" +%s)
 git clone \
     --shallow-since=${SHALLOW_CLONE_DATE} \
     --single-branch \
