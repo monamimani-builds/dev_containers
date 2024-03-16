@@ -35,5 +35,6 @@
       "dockerDashComposeVersion": "none",
       "installDockerBuildx": true
     }
-  }
+  },
+  "postStartCommand": "chmod +x .devcontainer/gitconfig-identity.sh && .devcontainer/gitconfig-identity.sh"
 }
