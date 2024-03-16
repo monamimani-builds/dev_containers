@@ -19,11 +19,14 @@ wget https://apt.llvm.org/llvm.sh
 chmod +x llvm.sh
 
 LLVM_VER="18"
-./llvm.sh ${LLVM_VER} all
+./llvm.sh ${LLVM_VER} clang-${LLVM_VER} lldb-${LLVM_VER} lld-${LLVM_VER} clangd-${LLVM_VER} \
+                      llvm-${LLVM_VER}-dev libclang-${LLVM_VER}-dev clang-tidy-${LLVM_VER} \
+                      clang-format-${LLVM_VER} libc++-${LLVM_VER}-dev libc++abi-${LLVM_VER}-dev \
+                      libclang-cpp${LLVM_VER}-dev
 
-          # clang-${LLVM_VER} lldb-${LLVM_VER} lld-${LLVM_VER} clangd-${LLVM_VER} \
-          # llvm-${LLVM_VER}-dev libclang-${LLVM_VER}-dev clang-tidy-${LLVM_VER} clang-format-${LLVM_VER} \
-          # libc++-${LLVM_VER}-dev libc++abi-${LLVM_VER}-dev 
+          # all
+
+
 popd
 
 # Set the default clang-tidy, so CMake can find it
