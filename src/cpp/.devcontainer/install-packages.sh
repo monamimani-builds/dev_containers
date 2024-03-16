@@ -35,7 +35,11 @@ update-alternatives --install /usr/bin/clang++ clang++ $(which clang++-${LLVM_VE
 mkdir -p "${VCPKG_ROOT}"
 mkdir -p "${VCPKG_DOWNLOADS}"
 pushd $VCPKG_ROOT
+SHALLOW_CLONE_DATE=$(date -v-1Y +%s)
 git clone \
+    --shallow-since=${SHALLOW_CLONE_DATE} \
+    --single-branch \
+    --no-tags \
     -c core.eol=lf \
     -c core.autocrlf=false \
     -c fsck.zeroPaddedFilemode=ignore \
