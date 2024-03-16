@@ -2,8 +2,6 @@
 
 set -e
 
-#!/usr/bin/env bash
-
 apt-get update 
 apt-get -y upgrade
 apt-get -y install --no-install-recommends git apt-transport-https curl ca-certificates pigz iptables gnupg2 dirmngr wget jq

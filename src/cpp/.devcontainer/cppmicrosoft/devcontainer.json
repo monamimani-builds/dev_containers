@@ -1,0 +1,39 @@
+{
+  "name": "CppDevContainer",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "runArgs": [
+    "--cap-add=SYS_PTRACE",
+    "--security-opt",
+    "seccomp=unconfined"
+  ],
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "cmake.configureOnOpen": false,
+        "editor.formatOnSave": true
+      },
+      "extensions": [
+        "github.vscode-github-actions",
+        "ms-azuretools.vscode-docker",
+        "ms-vscode.cmake-tools",
+        "ms-vscode.cpptools",
+        "ms-vscode.cpptools-extension-pack",
+        "josetr.cmake-language-support-vscode"
+      ]
+    }
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/git": {},
+    "ghcr.io/devcontainers/features/git-lfs": {},
+    "ghcr.io/devcontainers/features/powershell": {},
+    "ghcr.io/devcontainers-community/features/llvm": {}
+  },
+  //"remoteUser": "vscode"
+  // "onCreateCommand": {
+  //   "Set postCreate executable flag": "chmod +x .devcontainer/postCreate.sh"
+  // },
+  // "postCreateCommand": "sudo .devcontainer/postCreate.sh",
+
+}
