@@ -15,6 +15,12 @@ apt-get install -y --no-install-recommends ninja-build doxygen graphviz ccache c
 
 pushd /tmp/
 echo "Install cmake"
+
+# Remove any previous LLVM that may be in the base image
+if dpkg -s llvm > /dev/null 2>&1; then
+  apt-get purge -y llvm && apt-get autoremove -y
+fi
+
 wget https://apt.kitware.com/kitware-archive.sh
 chmod +x kitware-archive.sh
 ./kitware-archive.sh
@@ -25,12 +31,19 @@ wget https://apt.llvm.org/llvm.sh
 chmod +x llvm.sh
 
 LLVM_VER="18"
-./llvm.sh ${LLVM_VER}
+./llvm.sh ${LLVM_VER} all
 
-apt-get install -y --no-install-recommends clang-${LLVM_VER} lldb-${LLVM_VER} lld-${LLVM_VER} clangd-${LLVM_VER} \
-                      clang-tidy-${LLVM_VER} clang-format-${LLVM_VER} libc++-${LLVM_VER}-dev libc++abi-${LLVM_VER}-dev \
-                      libclang-rt-${LLVM_VER}-dev
+# apt-get install -y --no-install-recommends clang-${LLVM_VER} lldb-${LLVM_VER} lld-${LLVM_VER} clangd-${LLVM_VER} \
+#                       clang-tidy-${LLVM_VER} clang-format-${LLVM_VER} libc++-${LLVM_VER}-dev libc++abi-${LLVM_VER}-dev \
+#                       libclang-rt-${LLVM_VER}-dev
 popd
+
+for bin in /usr/lib/llvm-${LLVM_VER}/bin/*; do
+  bin=$(basename $bin)
+  if [ -f /usr/bin/${bin}-${VERSION} ]; then
+    ln -sf /usr/bin/${bin}-${VERSION} /usr/bin/${bin}
+  fi
+done
 
 # Set the default clang-tidy, so CMake can find it
 update-alternatives --install /usr/bin/clang-tidy clang-tidy $(which clang-tidy-${LLVM_VER}) 1
