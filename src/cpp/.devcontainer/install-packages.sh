@@ -39,9 +39,9 @@ LLVM_VER="18"
 popd
 
 for bin in /usr/lib/llvm-${LLVM_VER}/bin/*; do
-  bin=$(basename $bin)
-  if [ -f /usr/bin/${bin}-${VERSION} ]; then
-    ln -sf /usr/bin/${bin}-${VERSION} /usr/bin/${bin}
+  bin=$(basename ${bin})
+  if [ -f /usr/bin/${bin}-${LLVM_VER} ]; then
+    ln -sf /usr/bin/${bin}-${LLVM_VER} /usr/bin/${bin}
   fi
 done
 
