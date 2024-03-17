@@ -47,7 +47,7 @@ done
 
 # Set the default clang-tidy, so CMake can find it
 update-alternatives --install /usr/bin/clang-tidy clang-tidy $(which clang-tidy-${LLVM_VER}) 1
-update-alternatives --install /usr/bin/clang-format clang-tidy $(which clang-format-${LLVM_VER}) 1
+update-alternatives --install /usr/bin/clang-format clang-format $(which clang-format-${LLVM_VER}) 1
 
 # Set clang-${LLVM_VER} as default clang
 update-alternatives --install /usr/bin/clang clang $(which clang-${LLVM_VER}) 100
