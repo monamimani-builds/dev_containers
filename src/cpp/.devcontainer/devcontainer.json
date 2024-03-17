@@ -30,14 +30,16 @@
       ]
     }
   },
+  "mounts": [
+    "source=cppdevcontainer-bashhistory,target=/commandhistory,type=volume"
+  ],
   "features": {
-  //   "ghcr.io/devcontainers/features/powershell": {},
-  "ghcr.io/devcontainers/features/common-utils:2": {
-    "installZsh": false,
-    "installOhMyZsh": false,
-    "installOhMyZshConfig": false,
-    "upgradePackages": false
+    //   "ghcr.io/devcontainers/features/powershell": {},
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": false,
+      "installOhMyZsh": false,
+      "installOhMyZshConfig": false,
+      "upgradePackages": false
+    }
   }
-  }
-
 }
