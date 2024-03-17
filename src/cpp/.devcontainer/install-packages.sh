@@ -31,11 +31,11 @@ wget https://apt.llvm.org/llvm.sh
 chmod +x llvm.sh
 
 LLVM_VER="18"
-./llvm.sh ${LLVM_VER} all
+./llvm.sh ${LLVM_VER}
 
-# apt-get install -y --no-install-recommends clang-${LLVM_VER} lldb-${LLVM_VER} lld-${LLVM_VER} clangd-${LLVM_VER} \
-#                       clang-tidy-${LLVM_VER} clang-format-${LLVM_VER} libc++-${LLVM_VER}-dev libc++abi-${LLVM_VER}-dev \
-#                       libclang-rt-${LLVM_VER}-dev
+apt-get install -y --no-install-recommends clang-${LLVM_VER} lldb-${LLVM_VER} lld-${LLVM_VER} clangd-${LLVM_VER} \
+                      clang-tidy-${LLVM_VER} clang-format-${LLVM_VER} libc++-${LLVM_VER}-dev libc++abi-${LLVM_VER}-dev \
+                      libclang-rt-${LLVM_VER}-dev
 popd
 
 for bin in /usr/lib/llvm-${LLVM_VER}/bin/*; do
