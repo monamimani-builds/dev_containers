@@ -136,7 +136,8 @@ VCPKG_FORCE_SYSTEM_BINARIES=1 su "vscode" -c "${VCPKG_ROOT}/vcpkg integrate bash
 VCPKG_FORCE_SYSTEM_BINARIES=1 su "root" -c "${VCPKG_ROOT}/vcpkg integrate bash"
 
 # Cleaning
-apt-get purge software-properties-common
+echo "Cleanup"
+apt-get purge -y software-properties-common
 apt-get autoremove -y
 apt-get clean -y
 rm -rf /var/lib/apt/lists/*
