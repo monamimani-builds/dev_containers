@@ -6,6 +6,8 @@ ENV VCPKG_ROOT=/usr/local/vcpkg \
   VCPKG_INSTALLATION_ROOT=$VCPKG_ROOT \
   PATH="${PATH}:${VCPKG_ROOT}"
 
+RUN groupadd vscode && useradd -s /bin/bash --gid vscode -m vscode
+
 COPY install-packages.sh /tmp/
 RUN chmod +x /tmp/install-packages.sh \
   && ./tmp/install-packages.sh \
@@ -16,9 +18,8 @@ RUN SNIPPET="export PROMPT_COMMAND='history -a' && export HISTFILE=/commandhisto
   && echo "$SNIPPET" >> "/root/.bashrc"
 
 # Persist Bash history for non root user
-ARG USERNAME=vscode
-RUN groupadd $USERNAME && useradd -s /bin/bash --gid $USERNAME -m $USERNAME && SNIPPET="export PROMPT_COMMAND='history -a' && export HISTFILE=/commandhistory/.bash_history" \
+RUN SNIPPET="export PROMPT_COMMAND='history -a' && export HISTFILE=/commandhistory/.bash_history" \
     && mkdir /commandhistory \
     && touch /commandhistory/.bash_history \
-    && chown -R $USERNAME /commandhistory \
-    && echo "$SNIPPET" >> "/home/$USERNAME/.bashrc"
+    && chown -R vscode /commandhistory \
+    && echo "$SNIPPET" >> "/home/vscode/.bashrc"

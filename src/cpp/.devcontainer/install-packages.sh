@@ -31,6 +31,11 @@ _log() {
     echo -e "$_preset["${level^^}"]:\033[0m $msg" 1>&2
 }
 
+if [ "$(id -u)" -ne 0 ]; then
+    _log "error" 'Script must be run as root. Use sudo, su, or add "USER root" to your Dockerfile before running this script.'
+    exit 1
+fi
+
 cat > /etc/apt/apt.conf.d/99norecommend << EOF
 APT::Install-Recommends "false";
 APT::Install-Suggests "false";
@@ -127,8 +132,8 @@ EOF
 )"
 
 # Enable tab completion for bash and zsh
-VCPKG_FORCE_SYSTEM_BINARIES=1 su "${USERNAME}" -c "${VCPKG_ROOT}/vcpkg integrate bash"
-VCPKG_FORCE_SYSTEM_BINARIES=1 su "${USERNAME}" -c "${VCPKG_ROOT}/vcpkg integrate zsh"
+VCPKG_FORCE_SYSTEM_BINARIES=1 su "vscode" -c "${VCPKG_ROOT}/vcpkg integrate bash"
+VCPKG_FORCE_SYSTEM_BINARIES=1 su "root" -c "${VCPKG_ROOT}/vcpkg integrate bash"
 
 # Cleaning
 apt-get purge software-properties-common
