@@ -138,7 +138,7 @@ VCPKG_FORCE_SYSTEM_BINARIES=1 su "root" -c "${VCPKG_ROOT}/vcpkg integrate bash"
 # Cleaning
 apt-get purge software-properties-common
 apt-get autoremove -y
-apt-get clean
+apt-get clean -y
 rm -rf /var/lib/apt/lists/*
 rm -f /etc/apt/apt.conf.d/99norecommend
 
