@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 export DEBIAN_FRONTEND=noninteractive
 
 cat > /etc/apt/apt.conf.d/99norecommend << EOF
@@ -35,7 +37,7 @@ LLVM_VER="18"
 
 apt-get install -y --no-install-recommends clang-${LLVM_VER} lldb-${LLVM_VER} lld-${LLVM_VER} clangd-${LLVM_VER} \
                       clang-tidy-${LLVM_VER} clang-format-${LLVM_VER} libc++-${LLVM_VER}-dev libc++abi-${LLVM_VER}-dev \
-                      libclang-rt-${LLVM_VER}-dev llvm-$LLVM_VERSION-dev
+                      libclang-rt-${LLVM_VER}-dev llvm-$LLVM_VER-dev
 popd
 
 for bin in /usr/lib/llvm-${LLVM_VER}/bin/*; do
