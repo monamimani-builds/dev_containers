@@ -82,8 +82,8 @@ echo "Install cmake"
 # apt install -y cmake
 
 echo "Install LLVM"
-# wget https://apt.llvm.org/llvm.sh
-# chmod +x llvm.sh
+wget https://apt.llvm.org/llvm.sh
+chmod +x llvm.sh
 
 LLVM_VER="18"
 /llvm.sh ${LLVM_VER} -n jammy
