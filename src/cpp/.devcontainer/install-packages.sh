@@ -53,27 +53,29 @@ EOF
 # fi
 
 # # Remove any previous LLVM that may be in the base image
-# if dpkg -s llvm > /dev/null 2>&1; then
-#   apt-get purge -y llvm && apt-get autoremove -y
+# if dpkg -s llvm-17 > /dev/null 2>&1; then
+#   apt-get purge -y llvm-17 && apt-get autoremove -y
 # fi
 
 apt-get update 
 apt-get upgrade -y
 apt-get install -y --no-install-recommends git git-lfs ninja-build cmake
 apt-get install -y --no-install-recommends doxygen graphviz ccache cppcheck valgrind
-apt-get install -y --no-install-recommends ca-certificates curl zip unzip tar
+apt-get install -y --no-install-recommends software-properties-common curl zip unzip tar pkg-config
 # add-apt-repository -y ppa:ubuntu-toolchain-r/test
 apt-get update
 
-#install gcc-13 from ppa:ubuntu-toolchain-r/test and removing the ppa afterwards
-# apt install -y gcc-13 g++-13 libstdc++-13-dev
+#install gcc
+GCC_VER="14"
+apt install -y gcc-${GCC_VER} g++-${GCC_VER} libstdc++-${GCC_VER}-dev
 # add-apt-repository -y --remove ppa:ubuntu-toolchain-r/test
-# update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-13 13
-# update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-13 13
+update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${GCC_VER} ${GCC_VER}
+update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-${GCC_VER} ${GCC_VER}
 
 pushd /tmp/
 echo "Install cmake"
 
+#Ubuntu noble already comes with cmake 3.28
 # wget https://apt.kitware.com/kitware-archive.sh
 # chmod +x kitware-archive.sh
 # ./kitware-archive.sh
@@ -86,25 +88,25 @@ echo "Install LLVM"
 LLVM_VER="18"
 # ./llvm.sh ${LLVM_VER}
 
-# apt-get install -y --no-install-recommends clang-${LLVM_VER} lldb-${LLVM_VER} lld-${LLVM_VER} clangd-${LLVM_VER} \
-#                       clang-tidy-${LLVM_VER} clang-format-${LLVM_VER} libc++-${LLVM_VER}-dev libc++abi-${LLVM_VER}-dev \
-#                       libclang-rt-${LLVM_VER}-dev llvm-$LLVM_VER-dev
+apt-get install -y --no-install-recommends clang-${LLVM_VER} lldb-${LLVM_VER} lld-${LLVM_VER} clangd-${LLVM_VER} \
+                      clang-tidy-${LLVM_VER} clang-format-${LLVM_VER} libc++-${LLVM_VER}-dev libc++abi-${LLVM_VER}-dev \
+                      libclang-rt-${LLVM_VER}-dev llvm-$LLVM_VER-dev
 popd
 
-# for bin in /usr/lib/llvm-${LLVM_VER}/bin/*; do
-#   bin=$(basename ${bin})
-#   if [ -f /usr/bin/${bin}-${LLVM_VER} ]; then
-#     ln -sf /usr/bin/${bin}-${LLVM_VER} /usr/bin/${bin}
-#   fi
-# done
+for bin in /usr/lib/llvm-${LLVM_VER}/bin/*; do
+  bin=$(basename ${bin})
+  if [ -f /usr/bin/${bin}-${LLVM_VER} ]; then
+    ln -sf /usr/bin/${bin}-${LLVM_VER} /usr/bin/${bin}
+  fi
+done
 
 # Set the default clang-tidy, so CMake can find it
-# update-alternatives --install /usr/bin/clang-tidy clang-tidy $(which clang-tidy-${LLVM_VER}) 1
-# update-alternatives --install /usr/bin/clang-format clang-format $(which clang-format-${LLVM_VER}) 1
+update-alternatives --install /usr/bin/clang-tidy clang-tidy $(which clang-tidy-${LLVM_VER}) 1
+update-alternatives --install /usr/bin/clang-format clang-format $(which clang-format-${LLVM_VER}) 1
 
 # Set clang-${LLVM_VER} as default clang
-# update-alternatives --install /usr/bin/clang clang $(which clang-${LLVM_VER}) 100
-# update-alternatives --install /usr/bin/clang++ clang++ $(which clang++-${LLVM_VER}) 100
+update-alternatives --install /usr/bin/clang clang $(which clang-${LLVM_VER}) 100
+update-alternatives --install /usr/bin/clang++ clang++ $(which clang++-${LLVM_VER}) 100
 
 # vcpkg: https://github.com/microsoft/vcpkg/blob/master/README.md#quick-start-unix
 mkdir -p "${VCPKG_ROOT}"
@@ -166,5 +168,5 @@ git --version
 cmake --version
 echo "Ninja"
 ninja --version
-# gcc --version
-# clang --version
+gcc --version
+clang --version
