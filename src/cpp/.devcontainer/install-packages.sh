@@ -75,7 +75,11 @@ update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-${GCC_VER} ${GCC_VER
 pushd /tmp/
 echo "Install cmake"
 
-#Ubuntu noble already comes with cmake 3.28
+#Use binary from Kitware to gety 3.29 because 3.28.3 causes issue with clang-tidy on noble.
+wget https://github.com/Kitware/CMake/releases/download/v3.29.0-rc4/cmake-3.29.0-rc4-linux-x86_64.sh
+chmod +x cmake-3.29.0-rc4-linux-x86_64.sh
+./cmake-3.29.0-rc4-linux-x86_64.sh --skip-license --prefix=/opt --include-subdir
+
 # wget https://apt.kitware.com/kitware-archive.sh
 # chmod +x kitware-archive.sh
 # ./kitware-archive.sh
