@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -e
+set -x
 
 export DEBIAN_FRONTEND=noninteractive
 
@@ -41,14 +42,6 @@ APT::Install-Recommends "false";
 APT::Install-Suggests "false";
 EOF
 
-apt-get update 
-apt-get upgrade -y
-apt-get install -y --no-install-recommends git git-lfs sudo wget
-apt-get install -y --no-install-recommends software-properties-common build-essential pkg-config
-apt-get install -y --no-install-recommends ninja-build doxygen graphviz ccache cppcheck valgrind tar curl zip unzip
-add-apt-repository -y ppa:ubuntu-toolchain-r/test
-apt-get update
-
 # Remove any previous gcc that may be in the base image
 if dpkg -s gcc-11 > /dev/null 2>&1; then
   apt-get purge -y gcc-11 && apt-get autoremove -y
@@ -63,6 +56,14 @@ fi
 if dpkg -s llvm > /dev/null 2>&1; then
   apt-get purge -y llvm && apt-get autoremove -y
 fi
+
+apt-get update 
+apt-get upgrade -y
+apt-get install -y --no-install-recommends git git-lfs sudo wget
+apt-get install -y --no-install-recommends software-properties-common pkg-config
+apt-get install -y --no-install-recommends ninja-build doxygen graphviz ccache cppcheck valgrind tar curl zip unzip gpg
+add-apt-repository -y ppa:ubuntu-toolchain-r/test
+apt-get update
 
 #install gcc-13 from ppa:ubuntu-toolchain-r/test and removing the ppa afterwards
 apt install -y gcc-13 g++-13 libstdc++-13-dev
