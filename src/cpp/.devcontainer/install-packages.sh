@@ -101,25 +101,25 @@ echo "Install LLVM"
 LLVM_VER="18"
 # ./llvm.sh ${LLVM_VER}
 
-apt-get install -y --no-install-recommends clang-${LLVM_VER} lldb-${LLVM_VER} lld-${LLVM_VER} clangd-${LLVM_VER} \
-                      clang-tidy-${LLVM_VER} clang-format-${LLVM_VER} libc++-${LLVM_VER}-dev libc++abi-${LLVM_VER}-dev \
-                      libclang-rt-${LLVM_VER}-dev llvm-$LLVM_VER-dev
+# apt-get install -y --no-install-recommends clang-${LLVM_VER} lldb-${LLVM_VER} lld-${LLVM_VER} clangd-${LLVM_VER} \
+#                       clang-tidy-${LLVM_VER} clang-format-${LLVM_VER} libc++-${LLVM_VER}-dev libc++abi-${LLVM_VER}-dev \
+#                       libclang-rt-${LLVM_VER}-dev llvm-$LLVM_VER-dev
 popd
 
-for bin in /usr/lib/llvm-${LLVM_VER}/bin/*; do
-  bin=$(basename ${bin})
-  if [ -f /usr/bin/${bin}-${LLVM_VER} ]; then
-    ln -sf /usr/bin/${bin}-${LLVM_VER} /usr/bin/${bin}
-  fi
-done
+# for bin in /usr/lib/llvm-${LLVM_VER}/bin/*; do
+#   bin=$(basename ${bin})
+#   if [ -f /usr/bin/${bin}-${LLVM_VER} ]; then
+#     ln -sf /usr/bin/${bin}-${LLVM_VER} /usr/bin/${bin}
+#   fi
+# done
 
 # Set the default clang-tidy, so CMake can find it
-update-alternatives --install /usr/bin/clang-tidy clang-tidy $(which clang-tidy-${LLVM_VER}) 1
-update-alternatives --install /usr/bin/clang-format clang-format $(which clang-format-${LLVM_VER}) 1
+# update-alternatives --install /usr/bin/clang-tidy clang-tidy $(which clang-tidy-${LLVM_VER}) 100
+# update-alternatives --install /usr/bin/clang-format clang-format $(which clang-format-${LLVM_VER}) 100
 
 # Set clang-${LLVM_VER} as default clang
-update-alternatives --install /usr/bin/clang clang $(which clang-${LLVM_VER}) 100
-update-alternatives --install /usr/bin/clang++ clang++ $(which clang++-${LLVM_VER}) 100
+# update-alternatives --install /usr/bin/clang clang $(which clang-${LLVM_VER}) 100
+# update-alternatives --install /usr/bin/clang++ clang++ $(which clang++-${LLVM_VER}) 100
 
 # vcpkg: https://github.com/microsoft/vcpkg/blob/master/README.md#quick-start-unix
 mkdir -p "${VCPKG_ROOT}"
@@ -176,6 +176,7 @@ apt-get autoremove -y
 apt-get clean -y
 rm -rf /var/lib/apt/lists/*
 rm -f /etc/apt/apt.conf.d/99norecommend
+rm -frd /tmp
 
 git --version
 cmake --version
