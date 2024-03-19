@@ -42,20 +42,20 @@ APT::Install-Recommends "false";
 APT::Install-Suggests "false";
 EOF
 
-# Remove any previous gcc that may be in the base image
-if dpkg -s gcc-11 > /dev/null 2>&1; then
-  apt-get purge -y gcc-11 && apt-get autoremove -y
-fi
+# # Remove any previous gcc that may be in the base image
+# if dpkg -s gcc-11 > /dev/null 2>&1; then
+#   apt-get purge -y gcc-11 && apt-get autoremove -y
+# fi
 
-# Remove any previous libstdc++ that may be in the base image
-if dpkg -s libstdc++-11-dev > /dev/null 2>&1; then
-  apt-get purge -y libstdc++-11-dev && apt-get autoremove -y
-fi
+# # Remove any previous libstdc++ that may be in the base image
+# if dpkg -s libstdc++-11-dev > /dev/null 2>&1; then
+#   apt-get purge -y libstdc++-11-dev && apt-get autoremove -y
+# fi
 
-# Remove any previous LLVM that may be in the base image
-if dpkg -s llvm > /dev/null 2>&1; then
-  apt-get purge -y llvm && apt-get autoremove -y
-fi
+# # Remove any previous LLVM that may be in the base image
+# if dpkg -s llvm > /dev/null 2>&1; then
+#   apt-get purge -y llvm && apt-get autoremove -y
+# fi
 
 apt-get update 
 apt-get upgrade -y
@@ -66,45 +66,45 @@ add-apt-repository -y ppa:ubuntu-toolchain-r/test
 apt-get update
 
 #install gcc-13 from ppa:ubuntu-toolchain-r/test and removing the ppa afterwards
-apt install -y gcc-13 g++-13 libstdc++-13-dev
-add-apt-repository -y --remove ppa:ubuntu-toolchain-r/test
-update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-13 13
-update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-13 13
+# apt install -y gcc-13 g++-13 libstdc++-13-dev
+# add-apt-repository -y --remove ppa:ubuntu-toolchain-r/test
+# update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-13 13
+# update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-13 13
 
 pushd /tmp/
 echo "Install cmake"
 
-wget https://apt.kitware.com/kitware-archive.sh
-chmod +x kitware-archive.sh
-./kitware-archive.sh
-apt install -y cmake
+# wget https://apt.kitware.com/kitware-archive.sh
+# chmod +x kitware-archive.sh
+# ./kitware-archive.sh
+# apt install -y cmake
 
 echo "Install LLVM"
-wget https://apt.llvm.org/llvm.sh
-chmod +x llvm.sh
+# wget https://apt.llvm.org/llvm.sh
+# chmod +x llvm.sh
 
 LLVM_VER="18"
-./llvm.sh ${LLVM_VER}
+# ./llvm.sh ${LLVM_VER}
 
-apt-get install -y --no-install-recommends clang-${LLVM_VER} lldb-${LLVM_VER} lld-${LLVM_VER} clangd-${LLVM_VER} \
-                      clang-tidy-${LLVM_VER} clang-format-${LLVM_VER} libc++-${LLVM_VER}-dev libc++abi-${LLVM_VER}-dev \
-                      libclang-rt-${LLVM_VER}-dev llvm-$LLVM_VER-dev
+# apt-get install -y --no-install-recommends clang-${LLVM_VER} lldb-${LLVM_VER} lld-${LLVM_VER} clangd-${LLVM_VER} \
+#                       clang-tidy-${LLVM_VER} clang-format-${LLVM_VER} libc++-${LLVM_VER}-dev libc++abi-${LLVM_VER}-dev \
+#                       libclang-rt-${LLVM_VER}-dev llvm-$LLVM_VER-dev
 popd
 
-for bin in /usr/lib/llvm-${LLVM_VER}/bin/*; do
-  bin=$(basename ${bin})
-  if [ -f /usr/bin/${bin}-${LLVM_VER} ]; then
-    ln -sf /usr/bin/${bin}-${LLVM_VER} /usr/bin/${bin}
-  fi
-done
+# for bin in /usr/lib/llvm-${LLVM_VER}/bin/*; do
+#   bin=$(basename ${bin})
+#   if [ -f /usr/bin/${bin}-${LLVM_VER} ]; then
+#     ln -sf /usr/bin/${bin}-${LLVM_VER} /usr/bin/${bin}
+#   fi
+# done
 
 # Set the default clang-tidy, so CMake can find it
-update-alternatives --install /usr/bin/clang-tidy clang-tidy $(which clang-tidy-${LLVM_VER}) 1
-update-alternatives --install /usr/bin/clang-format clang-format $(which clang-format-${LLVM_VER}) 1
+# update-alternatives --install /usr/bin/clang-tidy clang-tidy $(which clang-tidy-${LLVM_VER}) 1
+# update-alternatives --install /usr/bin/clang-format clang-format $(which clang-format-${LLVM_VER}) 1
 
 # Set clang-${LLVM_VER} as default clang
-update-alternatives --install /usr/bin/clang clang $(which clang-${LLVM_VER}) 100
-update-alternatives --install /usr/bin/clang++ clang++ $(which clang++-${LLVM_VER}) 100
+# update-alternatives --install /usr/bin/clang clang $(which clang-${LLVM_VER}) 100
+# update-alternatives --install /usr/bin/clang++ clang++ $(which clang++-${LLVM_VER}) 100
 
 # vcpkg: https://github.com/microsoft/vcpkg/blob/master/README.md#quick-start-unix
 mkdir -p "${VCPKG_ROOT}"
