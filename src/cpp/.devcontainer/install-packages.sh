@@ -59,10 +59,10 @@ EOF
 
 apt-get update 
 apt-get upgrade -y
-apt-get install -y --no-install-recommends git git-lfs sudo wget
-apt-get install -y --no-install-recommends software-properties-common pkg-config
-apt-get install -y --no-install-recommends ninja-build doxygen graphviz ccache cppcheck valgrind tar curl zip unzip gpg-agent
-add-apt-repository -y ppa:ubuntu-toolchain-r/test
+apt-get install -y --no-install-recommends git git-lfs ninja-build cmake
+apt-get install -y --no-install-recommends doxygen graphviz ccache cppcheck valgrind
+apt-get install -y --no-install-recommends ca-certificates curl zip unzip tar
+# add-apt-repository -y ppa:ubuntu-toolchain-r/test
 apt-get update
 
 #install gcc-13 from ppa:ubuntu-toolchain-r/test and removing the ppa afterwards
@@ -166,5 +166,5 @@ git --version
 cmake --version
 echo "Ninja"
 ninja --version
-gcc --version
-clang --version
+# gcc --version
+# clang --version
