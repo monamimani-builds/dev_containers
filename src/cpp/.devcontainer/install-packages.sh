@@ -86,7 +86,7 @@ echo "Install LLVM"
 # chmod +x llvm.sh
 
 LLVM_VER="18"
-# ./llvm.sh ${LLVM_VER}
+/llvm.sh ${LLVM_VER} -n jammy
 
 apt-get install -y --no-install-recommends clang-${LLVM_VER} lldb-${LLVM_VER} lld-${LLVM_VER} clangd-${LLVM_VER} \
                       clang-tidy-${LLVM_VER} clang-format-${LLVM_VER} libc++-${LLVM_VER}-dev libc++abi-${LLVM_VER}-dev \
