@@ -80,6 +80,12 @@ wget https://github.com/Kitware/CMake/releases/download/v3.29.0-rc4/cmake-3.29.0
 chmod +x cmake-3.29.0-rc4-linux-x86_64.sh
 ./cmake-3.29.0-rc4-linux-x86_64.sh --skip-license --prefix=/opt --include-subdir
 
+update-alternatives --install /usr/bin/cmake cmake /opt/cmake-3.29.0-rc4-linux-x86_64/bin/cmake 3290
+update-alternatives --install /usr/bin/ccmake ccmake /opt/cmake-3.29.0-rc4-linux-x86_64/bin/ccmake 3290
+update-alternatives --install /usr/bin/cmake-gui cmake-gui /opt/cmake-3.29.0-rc4-linux-x86_64/bin/cmake-gui 3290
+update-alternatives --install /usr/bin/cpack cpack /opt/cmake-3.29.0-rc4-linux-x86_64/bin/cpack 3290
+update-alternatives --install /usr/bin/ctest ctest /opt/cmake-3.29.0-rc4-linux-x86_64/bin/ctest 3290
+
 # wget https://apt.kitware.com/kitware-archive.sh
 # chmod +x kitware-archive.sh
 # ./kitware-archive.sh
