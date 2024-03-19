@@ -61,7 +61,7 @@ apt-get update
 apt-get upgrade -y
 apt-get install -y --no-install-recommends git git-lfs sudo wget
 apt-get install -y --no-install-recommends software-properties-common pkg-config
-apt-get install -y --no-install-recommends ninja-build doxygen graphviz ccache cppcheck valgrind tar curl zip unzip gpg
+apt-get install -y --no-install-recommends ninja-build doxygen graphviz ccache cppcheck valgrind tar curl zip unzip gpg-agent
 add-apt-repository -y ppa:ubuntu-toolchain-r/test
 apt-get update
 
