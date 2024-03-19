@@ -46,14 +46,32 @@ apt-get upgrade -y
 apt-get install -y --no-install-recommends git git-lfs sudo wget
 apt-get install -y --no-install-recommends software-properties-common build-essential pkg-config
 apt-get install -y --no-install-recommends ninja-build doxygen graphviz ccache cppcheck valgrind tar curl zip unzip
+add-apt-repository -y ppa:ubuntu-toolchain-r/test
+apt-get update
 
-pushd /tmp/
-echo "Install cmake"
+# Remove any previous gcc that may be in the base image
+if dpkg -s gcc-11 > /dev/null 2>&1; then
+  apt-get purge -y gcc-11 && apt-get autoremove -y
+fi
+
+# Remove any previous libstdc++ that may be in the base image
+if dpkg -s libstdc++-11-dev > /dev/null 2>&1; then
+  apt-get purge -y libstdc++-11-dev && apt-get autoremove -y
+fi
 
 # Remove any previous LLVM that may be in the base image
 if dpkg -s llvm > /dev/null 2>&1; then
   apt-get purge -y llvm && apt-get autoremove -y
 fi
+
+#install gcc-13 from ppa:ubuntu-toolchain-r/test and removing the ppa afterwards
+apt install -y gcc-13 g++-13 libstdc++-13-dev
+add-apt-repository -y --remove ppa:ubuntu-toolchain-r/test
+update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-13 13
+update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-13 13
+
+pushd /tmp/
+echo "Install cmake"
 
 wget https://apt.kitware.com/kitware-archive.sh
 chmod +x kitware-archive.sh
