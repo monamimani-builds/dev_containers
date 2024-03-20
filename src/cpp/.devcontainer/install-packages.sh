@@ -40,6 +40,7 @@ fi
 cat > /etc/apt/apt.conf.d/99norecommend << EOF
 APT::Install-Recommends "false";
 APT::Install-Suggests "false";
+APT::Get::AllowUnauthenticated "true";
 EOF
 
 # # Remove any previous gcc that may be in the base image
@@ -76,12 +77,12 @@ pushd /tmp/
 echo "Install cmake"
 
 #Use binary from Kitware to gety 3.29 because 3.28.3 causes issue with clang-tidy on noble.
-# if dpkg -s cmake > /dev/null 2>&1; then
-#    apt-get purge -y cmake && apt-get autoremove -y
-# fi
-# wget https://github.com/Kitware/CMake/releases/download/v3.29.0-rc4/cmake-3.29.0-rc4-linux-x86_64.sh
-# chmod +x cmake-3.29.0-rc4-linux-x86_64.sh
-# ./cmake-3.29.0-rc4-linux-x86_64.sh --skip-license --prefix=/usr/local --include-subdir
+if dpkg -s cmake > /dev/null 2>&1; then
+   apt-get purge -y cmake && apt-get autoremove -y
+fi
+wget https://github.com/Kitware/CMake/releases/download/v3.29.0-rc4/cmake-3.29.0-rc4-linux-x86_64.sh
+chmod +x cmake-3.29.0-rc4-linux-x86_64.sh
+./cmake-3.29.0-rc4-linux-x86_64.sh --skip-license --prefix=/usr/local --include-subdir
 
 # update-alternatives --install /usr/bin/cmake cmake /usr/local/cmake-3.29.0-rc4-linux-x86_64/bin/cmake 3290
 # update-alternatives --install /usr/bin/ccmake ccmake /usr/local/cmake-3.29.0-rc4-linux-x86_64/bin/ccmake 3290
@@ -101,17 +102,17 @@ echo "Install LLVM"
 LLVM_VER="18"
 # ./llvm.sh ${LLVM_VER}
 
-# apt-get install -y --no-install-recommends clang-${LLVM_VER} lldb-${LLVM_VER} lld-${LLVM_VER} clangd-${LLVM_VER} \
-#                       clang-tidy-${LLVM_VER} clang-format-${LLVM_VER} libc++-${LLVM_VER}-dev libc++abi-${LLVM_VER}-dev \
-#                       libclang-rt-${LLVM_VER}-dev llvm-$LLVM_VER-dev
+apt-get install -y --no-install-recommends clang-${LLVM_VER} lldb-${LLVM_VER} lld-${LLVM_VER} clangd-${LLVM_VER} \
+                      clang-tidy-${LLVM_VER} clang-format-${LLVM_VER} libc++-${LLVM_VER}-dev libc++abi-${LLVM_VER}-dev \
+                      libclang-rt-${LLVM_VER}-dev llvm-$LLVM_VER-dev
 popd
 
-# for bin in /usr/lib/llvm-${LLVM_VER}/bin/*; do
-#   bin=$(basename ${bin})
-#   if [ -f /usr/bin/${bin}-${LLVM_VER} ]; then
-#     ln -sf /usr/bin/${bin}-${LLVM_VER} /usr/bin/${bin}
-#   fi
-# done
+for bin in /usr/lib/llvm-${LLVM_VER}/bin/*; do
+  bin=$(basename ${bin})
+  if [ -f /usr/bin/${bin}-${LLVM_VER} ]; then
+    ln -sf /usr/bin/${bin}-${LLVM_VER} /usr/bin/${bin}
+  fi
+done
 
 # Set the default clang-tidy, so CMake can find it
 # update-alternatives --install /usr/bin/clang-tidy clang-tidy $(which clang-tidy-${LLVM_VER}) 100
@@ -184,3 +185,7 @@ rm -frd /tmp
 # ninja --version
 # gcc --version
 # clang --version
+
+
+# chown root:root /tmp
+# chmod 1777 /tmp
