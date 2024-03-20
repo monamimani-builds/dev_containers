@@ -79,15 +79,15 @@ echo "Install cmake"
 if dpkg -s cmake > /dev/null 2>&1; then
    apt-get purge -y cmake && apt-get autoremove -y
 fi
-wget https://github.com/Kitware/CMake/releases/download/v3.29.0-rc4/cmake-3.29.0-rc4-linux-x86_64.sh
-chmod +x cmake-3.29.0-rc4-linux-x86_64.sh
-./cmake-3.29.0-rc4-linux-x86_64.sh --skip-license --prefix=/usr/local --exclude-subdir
+wget https://github.com/Kitware/CMake/releases/download/v3.28.3/cmake-3.28.3-linux-x86_64.sh
+chmod +x cmake-3.28.3-linux-x86_64.sh
+./cmake-3.28.3-linux-x86_64.sh --skip-license --prefix=/usr/local --exclude-subdir
 
-# update-alternatives --install /usr/bin/cmake cmake /usr/local/cmake-3.29.0-rc4-linux-x86_64/bin/cmake 3290
-# update-alternatives --install /usr/bin/ccmake ccmake /usr/local/cmake-3.29.0-rc4-linux-x86_64/bin/ccmake 3290
-# update-alternatives --install /usr/bin/cmake-gui cmake-gui /usr/local/cmake-3.29.0-rc4-linux-x86_64/bin/cmake-gui 3290
-# update-alternatives --install /usr/bin/cpack cpack /usr/local/cmake-3.29.0-rc4-linux-x86_64/bin/cpack 3290
-# update-alternatives --install /usr/bin/ctest ctest /usr/local/cmake-3.29.0-rc4-linux-x86_64/bin/ctest 3290
+# update-alternatives --install /usr/bin/cmake cmake /usr/local/cmake-3.28.3-linux-x86_64/bin/cmake 3290
+# update-alternatives --install /usr/bin/ccmake ccmake /usr/local/cmake-3.28.3-linux-x86_64/bin/ccmake 3290
+# update-alternatives --install /usr/bin/cmake-gui cmake-gui /usr/local/cmake-3.28.3-linux-x86_64/bin/cmake-gui 3290
+# update-alternatives --install /usr/bin/cpack cpack /usr/local/cmake-3.28.3-linux-x86_64/bin/cpack 3290
+# update-alternatives --install /usr/bin/ctest ctest /usr/local/cmake-3.28.3-linux-x86_64/bin/ctest 3290
 
 # wget https://apt.kitware.com/kitware-archive.sh
 # chmod +x kitware-archive.sh
