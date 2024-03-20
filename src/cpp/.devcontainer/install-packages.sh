@@ -192,4 +192,4 @@ echo "Ninja"
 ninja --version
 gcc --version
 clang --version
-pwsh --version
+# pwsh --version
