@@ -1,4 +1,4 @@
-FROM ubuntu:noble
+FROM ubuntu:mantic
 
 # Setup ENV vars for vcpkg
 ENV VCPKG_ROOT=/usr/local/vcpkg \
