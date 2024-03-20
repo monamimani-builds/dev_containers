@@ -144,6 +144,14 @@ git config --system --add safe.directory "$VCPKG_ROOT"
 git fetch --unshallow
 git pull --ff-only
 bootstrap-vcpkg.sh
+
+source /etc/os-release
+wget -q https://packages.microsoft.com/config/ubuntu/$VERSION_ID/packages-microsoft-prod.deb
+dpkg -i packages-microsoft-prod.deb
+rm packages-microsoft-prod.deb
+apt-get update
+apt-get install -y powershell
+
 popd
 
 # Add to bashrc/zshrc files for all users.
@@ -183,3 +191,4 @@ echo "Ninja"
 ninja --version
 gcc --version
 clang --version
+pwsh --version
