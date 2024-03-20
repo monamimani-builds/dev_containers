@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
-set -x
+set -eux
 
 export DEBIAN_FRONTEND=noninteractive
 
@@ -83,9 +82,6 @@ fi
 wget https://github.com/Kitware/CMake/releases/download/v3.29.0-rc4/cmake-3.29.0-rc4-linux-x86_64.sh
 chmod +x cmake-3.29.0-rc4-linux-x86_64.sh
 ./cmake-3.29.0-rc4-linux-x86_64.sh --skip-license --prefix=/usr/local --include-subdir
-
-chown root:root /tmp
-chmod 1777 /tmp
 
 # update-alternatives --install /usr/bin/cmake cmake /usr/local/cmake-3.29.0-rc4-linux-x86_64/bin/cmake 3290
 # update-alternatives --install /usr/bin/ccmake ccmake /usr/local/cmake-3.29.0-rc4-linux-x86_64/bin/ccmake 3290
@@ -180,11 +176,10 @@ apt-get autoremove -y
 apt-get clean -y
 rm -rf /var/lib/apt/lists/*
 rm -f /etc/apt/apt.conf.d/99norecommend
-rm -frd /tmp
 
-# git --version
-# cmake --version
-# echo "Ninja"
-# ninja --version
+git --version
+cmake --version
+echo "Ninja"
+ninja --version
 # gcc --version
-# clang --version
+clang --version
