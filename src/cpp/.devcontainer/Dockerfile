@@ -4,7 +4,7 @@ FROM ubuntu:jammy
 # Setup ENV vars for vcpkg
 ENV VCPKG_ROOT=/usr/local/vcpkg
 ENV VCPKG_DOWNLOADS=/usr/local/vcpkg-downloads
-ENV VCPKG_INSTALLATION_ROOT="$VCPKG_ROOT"
+ENV VCPKG_INSTALLATION_ROOT=${VCPKG_ROOT}
 ENV PATH="${PATH}:${VCPKG_ROOT}"
 
 RUN groupadd vscode && useradd -s /bin/bash --gid vscode -m vscode
