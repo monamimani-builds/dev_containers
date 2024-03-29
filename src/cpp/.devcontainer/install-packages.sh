@@ -43,19 +43,19 @@ APT::Get::AllowUnauthenticated "true";
 EOF
 
 # # Remove any previous gcc that may be in the base image
-if dpkg -s gcc-11 > /dev/null 2>&1; then
-  apt-get purge -y gcc-* && apt-get autoremove -y
-fi
+# if dpkg -s gcc-11 > /dev/null 2>&1; then
+#   apt-get purge -y gcc-* && apt-get autoremove -y
+# fi
 
 # # Remove any previous libstdc++ that may be in the base image
-if dpkg -s libstdc++-11-dev > /dev/null 2>&1; then
-  apt-get purge -y libstdc++-* && apt-get autoremove -y
-fi
+# if dpkg -s libstdc++-11-dev > /dev/null 2>&1; then
+#   apt-get purge -y libstdc++-* && apt-get autoremove -y
+# fi
 
 # # Remove any previous LLVM that may be in the base image
-if dpkg -s llvm-17 > /dev/null 2>&1; then
-  apt-get purge -y llvm-* && apt-get autoremove -y
-fi
+# if dpkg -s llvm-17 > /dev/null 2>&1; then
+#   apt-get purge -y llvm-* && apt-get autoremove -y
+# fi
 
 apt-get update 
 apt-get upgrade -y
