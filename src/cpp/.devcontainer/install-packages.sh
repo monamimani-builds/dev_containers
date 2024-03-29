@@ -59,9 +59,9 @@ fi
 
 apt-get update 
 apt-get upgrade -y
-apt-get install -y --no-install-recommends git git-lfs ninja-build cmake
+apt-get install -y --no-install-recommends git git-lfs cmake
 apt-get install -y --no-install-recommends doxygen graphviz ccache cppcheck valgrind
-apt-get install -y --no-install-recommends software-properties-common curl zip unzip tar pkg-config wget gpg-agent
+apt-get install -y --no-install-recommends software-properties-common pip curl zip unzip tar pkg-config wget gpg-agent
 add-apt-repository -y ppa:ubuntu-toolchain-r/test
 apt-get update
 
@@ -74,6 +74,8 @@ update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-${GCC_VER} ${GCC_VER
 
 pushd /tmp/
 echo "Install cmake"
+
+pip install cmake ninja
 
 #Use binary from Kitware to gety 3.29 because 3.28.3 causes issue with clang-tidy on noble.
 # if dpkg -s cmake > /dev/null 2>&1; then
@@ -89,10 +91,10 @@ echo "Install cmake"
 # update-alternatives --install /usr/bin/cpack cpack /usr/local/cmake-3.28.3-linux-x86_64/bin/cpack 3290
 # update-alternatives --install /usr/bin/ctest ctest /usr/local/cmake-3.28.3-linux-x86_64/bin/ctest 3290
 
-wget https://apt.kitware.com/kitware-archive.sh
-chmod +x kitware-archive.sh
-./kitware-archive.sh
-apt install -y cmake
+# wget https://apt.kitware.com/kitware-archive.sh
+# chmod +x kitware-archive.sh
+# ./kitware-archive.sh
+# apt install -y cmake
 
 echo "Install LLVM"
 wget https://apt.llvm.org/llvm.sh
@@ -133,7 +135,7 @@ done
 
 # Cleaning
 echo "Cleanup"
-apt-get purge -y software-properties-common
+apt-get purge -y software-properties-common pip
 apt-get autoremove -y
 apt-get clean -y
 rm -rf /var/lib/apt/lists/*
