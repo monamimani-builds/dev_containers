@@ -131,18 +131,6 @@ done
 # apt-get install -y powershell
 
 
-# Add to bashrc/zshrc files for all users.
-updaterc() {
-    _log "info" "Updating /etc/bash.bashrc and /etc/zsh/zshrc..."
-    if [[ "$(cat /etc/bash.bashrc)" != *"$1"* ]]; then
-        echo -e "$1" >>/etc/bash.bashrc
-    fi
-    if [ -f "/etc/zsh/zshrc" ] && [[ "$(cat /etc/zsh/zshrc)" != *"$1"* ]]; then
-        echo -e "$1" >>/etc/zsh/zshrc
-    fi
-}
-
-
 # Cleaning
 echo "Cleanup"
 apt-get purge -y software-properties-common
