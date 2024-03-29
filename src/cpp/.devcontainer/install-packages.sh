@@ -61,10 +61,11 @@ apt-get update
 apt-get upgrade -y
 apt-get install -y --no-install-recommends git git-lfs cmake ninja-build
 apt-get install -y --no-install-recommends doxygen graphviz ccache cppcheck valgrind
-apt-get install -y --no-install-recommends software-properties-common curl zip unzip tar pkg-config wget gpg-agent
+apt-get install -y --no-install-recommends software-properties-common pip curl zip unzip tar pkg-config wget gpg-agent
 add-apt-repository -y ppa:ubuntu-toolchain-r/test
 apt-get update
 
+apt-get purge -y cmake && apt-get autoremove -y
 apt-get purge -y gcc-* && apt-get autoremove -y
 apt-get purge -y libstdc++-* && apt-get autoremove -y
 #apt-get purge -y llvm-* && apt-get autoremove -y
@@ -79,7 +80,7 @@ update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-${GCC_VER} ${GCC_VER
 pushd /tmp/
 echo "Install cmake"
 
-#pip install cmake ninja
+pip install cmake --no-cache-dir --break-system-packages
 
 #Use binary from Kitware to gety 3.29 because 3.28.3 causes issue with clang-tidy on noble.
 # if dpkg -s cmake > /dev/null 2>&1; then
@@ -139,7 +140,9 @@ done
 
 # Cleaning
 echo "Cleanup"
-apt-get purge -y software-properties-common
+pip cache remove cmake
+pip cache purge
+apt-get purge -y software-properties-common pip
 apt-get autoremove -y
 apt-get clean -y
 rm -rf /var/lib/apt/lists/*
