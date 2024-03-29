@@ -44,29 +44,33 @@ EOF
 
 # # Remove any previous gcc that may be in the base image
 if dpkg -s gcc-11 > /dev/null 2>&1; then
-  apt-get purge -y gcc-11 && apt-get autoremove -y
+  apt-get purge -y gcc-* && apt-get autoremove -y
 fi
 
 # # Remove any previous libstdc++ that may be in the base image
 if dpkg -s libstdc++-11-dev > /dev/null 2>&1; then
-  apt-get purge -y libstdc++-11-dev && apt-get autoremove -y
+  apt-get purge -y libstdc++-* && apt-get autoremove -y
 fi
 
 # # Remove any previous LLVM that may be in the base image
 if dpkg -s llvm-17 > /dev/null 2>&1; then
-  apt-get purge -y llvm-17 && apt-get autoremove -y
+  apt-get purge -y llvm-* && apt-get autoremove -y
 fi
 
 apt-get update 
 apt-get upgrade -y
-apt-get install -y --no-install-recommends git git-lfs cmake
+apt-get install -y --no-install-recommends git git-lfs cmake ninja-build
 apt-get install -y --no-install-recommends doxygen graphviz ccache cppcheck valgrind
-apt-get install -y --no-install-recommends software-properties-common pip curl zip unzip tar pkg-config wget gpg-agent
+apt-get install -y --no-install-recommends software-properties-common curl zip unzip tar pkg-config wget gpg-agent
 add-apt-repository -y ppa:ubuntu-toolchain-r/test
 apt-get update
 
+apt-get purge -y gcc-* && apt-get autoremove -y
+apt-get purge -y libstdc++-* && apt-get autoremove -y
+#apt-get purge -y llvm-* && apt-get autoremove -y
+
 #install gcc
-GCC_VER="13"
+GCC_VER="14"
 apt install -y gcc-${GCC_VER} g++-${GCC_VER} libstdc++-${GCC_VER}-dev
 add-apt-repository -y --remove ppa:ubuntu-toolchain-r/test
 update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${GCC_VER} ${GCC_VER}
@@ -75,7 +79,7 @@ update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-${GCC_VER} ${GCC_VER
 pushd /tmp/
 echo "Install cmake"
 
-pip install cmake ninja
+#pip install cmake ninja
 
 #Use binary from Kitware to gety 3.29 because 3.28.3 causes issue with clang-tidy on noble.
 # if dpkg -s cmake > /dev/null 2>&1; then
@@ -97,11 +101,11 @@ pip install cmake ninja
 # apt install -y cmake
 
 echo "Install LLVM"
-wget https://apt.llvm.org/llvm.sh
-chmod +x llvm.sh
+# wget https://apt.llvm.org/llvm.sh
+# chmod +x llvm.sh
 
 LLVM_VER="18"
-./llvm.sh ${LLVM_VER}
+# ./llvm.sh ${LLVM_VER}
 
 apt-get install -y --no-install-recommends clang-${LLVM_VER} lldb-${LLVM_VER} lld-${LLVM_VER} clangd-${LLVM_VER} \
                       clang-tidy-${LLVM_VER} clang-format-${LLVM_VER} libc++-${LLVM_VER}-dev libc++abi-${LLVM_VER}-dev \
@@ -135,7 +139,7 @@ done
 
 # Cleaning
 echo "Cleanup"
-apt-get purge -y software-properties-common pip
+apt-get purge -y software-properties-common
 apt-get autoremove -y
 apt-get clean -y
 rm -rf /var/lib/apt/lists/*
