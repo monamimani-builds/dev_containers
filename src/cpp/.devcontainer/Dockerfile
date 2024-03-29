@@ -14,6 +14,11 @@ RUN chmod +x /tmp/install-packages.sh \
   && ./tmp/install-packages.sh \
   && rm -f /tmp/install-packages.sh
 
+ADD "https://api.github.com/repos/microsoft/vcpkg/commits?per_page=1" latest_commit
+RUN chmod +x /tmp/install-vcpkg.sh \
+  && ./tmp/install-vcpkg.sh \
+  && rm -f /tmp/install-vcpkg.sh
+
 # Persist Bash history for root
 RUN SNIPPET="export PROMPT_COMMAND='history -a' && export HISTFILE=/commandhistory/.bash_history" \
   && echo "$SNIPPET" >> "/root/.bashrc"
