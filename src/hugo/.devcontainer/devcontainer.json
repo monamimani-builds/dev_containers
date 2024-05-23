@@ -24,7 +24,8 @@
         "github.vscode-github-actions",
         "EditorConfig.EditorConfig",
         "budparr.language-hugo-vscode",
-        "rusnasonov.vscode-hugo"
+        "rusnasonov.vscode-hugo",
+        "tamasfe.even-better-toml"
       ]
     }
   },
