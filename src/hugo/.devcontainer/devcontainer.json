@@ -1,15 +1,15 @@
 {
-  "name": "cppdevcontainer",
+  "name": "hugodevcontainer",
   "build": {
     "dockerfile": "Dockerfile",
     "options": [
       "-t",
-      "cppdevcontainer"
+      "hugodevcontainer"
     ]
   },
   "runArgs": [
     "--name",
-    "cppdevcontainer",
+    "hugodevcontainer",
     "--cap-add=SYS_PTRACE",
     "--security-opt",
     "seccomp=unconfined"
@@ -23,16 +23,12 @@
       "extensions": [
         "github.vscode-github-actions",
         "ms-azuretools.vscode-docker",
-        "ms-vscode.cmake-tools",
-        "ms-vscode.cpptools",
-        "ms-vscode.cpptools-extension-pack",
-        "josetr.cmake-language-support-vscode",
         "EditorConfig.EditorConfig"
       ]
     }
   },
   "mounts": [
-    "source=cppdevcontainer-bashhistory,target=/commandhistory,type=volume"
+    "source=hugodevcontainer-bashhistory,target=/commandhistory,type=volume"
   ],
   "features": {
     //   "ghcr.io/devcontainers/features/powershell": {},
