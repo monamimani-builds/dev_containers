@@ -22,7 +22,6 @@
       },
       "extensions": [
         "github.vscode-github-actions",
-        "ms-azuretools.vscode-docker",
         "ms-vscode.cmake-tools",
         "ms-vscode.cpptools",
         "ms-vscode.cpptools-extension-pack",
