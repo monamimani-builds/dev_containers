@@ -23,7 +23,9 @@
       "extensions": [
         "github.vscode-github-actions",
         "ms-azuretools.vscode-docker",
-        "EditorConfig.EditorConfig"
+        "EditorConfig.EditorConfig",
+        "budparr.language-hugo-vscode",
+        "rusnasonov.vscode-hugo"
       ]
     }
   },
