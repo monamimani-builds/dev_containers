@@ -35,23 +35,24 @@ if [ "$(id -u)" -ne 0 ]; then
 fi
 
 apk update 
-apk add --no-cache --upgrade apk-tools
+#apk add --no-cache --upgrade apk-tools
+apk add --no-cache --virtual build-deps jq
 apk upgrade
 
 apk add --no-cache git go
+apk add --no-cache --repository=https://dl-cdn.alpinelinux.org/alpine/edge/community hugo
 
 # Install Dart Sass
-curl -LJO https://github.com/sass/dart-sass/releases/download/${DART_SASS_VERSION}/dart-sass-${DART_SASS_VERSION}-linux-x64.tar.gz
-tar -xf dart-sass-${DART_SASS_VERSION}-linux-x64.tar.gz
-cp -r dart-sass/ /usr/local/bin
-rm -rf dart-sass*
+pushd /tmp/
+wget -q -O - $(wget -q -O - 'https://api.github.com/repos/sass/dart-sass/releases/latest' | jq -r '.assets[] | select(.name | endswith("linux-x64.tar.gz")).browser_download_url') | tar -xvz -C "/usr/local/bin"
 export PATH=/usr/local/bin/dart-sass:$PATH
-
+popd
 
 # Cleaning
 echo "Cleanup"
+apk del build-deps
 apk cache clean
 rm -rf /var/cache/apk/*
 
-hugo --version
-go --version
+hugo version
+go version

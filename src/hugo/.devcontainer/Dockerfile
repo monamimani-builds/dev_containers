@@ -2,7 +2,7 @@ FROM alpine:latest
 
 RUN apk add --no-cache bash
 
-RUN groupadd vscode && useradd -s /bin/bash --gid vscode -m vscode
+RUN addgroup vscode && adduser -s /bin/bash --disabled-password --ingroup vscode vscode
 
 COPY install-packages.sh /tmp/
 RUN chmod +x /tmp/install-packages.sh \
