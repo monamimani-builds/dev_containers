@@ -39,7 +39,7 @@ apk update
 apk add --no-cache --virtual build-deps jq
 apk upgrade
 
-apk add --no-cache git go
+apk add --no-cache git git-lfs go
 apk add --no-cache --repository=https://dl-cdn.alpinelinux.org/alpine/edge/community hugo
 
 # Install Dart Sass
