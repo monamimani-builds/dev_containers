@@ -25,7 +25,8 @@
         "EditorConfig.EditorConfig",
         "budparr.language-hugo-vscode",
         "rusnasonov.vscode-hugo",
-        "tamasfe.even-better-toml"
+        "tamasfe.even-better-toml",
+        "esbenp.prettier-vscode"
       ]
     }
   },
