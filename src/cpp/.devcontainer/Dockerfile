@@ -1,4 +1,4 @@
-FROM ubuntu:Plucky
+FROM ubuntu:plucky
 #FROM ubuntu:noble
 
 
