@@ -71,7 +71,7 @@ apt-get purge -y libstdc++-* && apt-get autoremove -y
 #apt-get purge -y llvm-* && apt-get autoremove -y
 
 #install gcc
-GCC_VER="14"
+GCC_VER="15"
 apt install -y gcc-${GCC_VER} g++-${GCC_VER} libstdc++-${GCC_VER}-dev
 add-apt-repository -y --remove ppa:ubuntu-toolchain-r/test
 update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${GCC_VER} ${GCC_VER}
