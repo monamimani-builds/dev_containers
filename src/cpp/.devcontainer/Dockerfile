@@ -1,5 +1,6 @@
-FROM ubuntu:noble
-#FROM ubuntu:jammy
+FROM ubuntu:oracular
+#FROM ubuntu:noble
+
 
 # Setup ENV vars for vcpkg
 ENV VCPKG_ROOT=/usr/local/vcpkg

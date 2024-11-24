@@ -57,7 +57,7 @@ EOF
 #   apt-get purge -y llvm-* && apt-get autoremove -y
 # fi
 
-apt-get update 
+apt-get update
 apt-get upgrade -y
 apt-get install -y --no-install-recommends git git-lfs cmake ninja-build
 apt-get install -y --no-install-recommends doxygen graphviz ccache cppcheck valgrind
@@ -105,7 +105,7 @@ echo "Install LLVM"
 # wget https://apt.llvm.org/llvm.sh
 # chmod +x llvm.sh
 
-LLVM_VER="18"
+LLVM_VER="19"
 # ./llvm.sh ${LLVM_VER}
 
 apt-get install -y --no-install-recommends clang-${LLVM_VER} lldb-${LLVM_VER} lld-${LLVM_VER} clangd-${LLVM_VER} \
