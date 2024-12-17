@@ -96,8 +96,8 @@ apt-get install -y --no-install-recommends clang-${LLVM_VER} lldb-${LLVM_VER} ll
         libc++abi-${LLVM_VER}-dev libclang-rt-${LLVM_VER}-dev llvm-$LLVM_VER-dev
 
 # add llvm to path
-PATH=/usr/lib/llvm-${LLVM_VER}/bin:/usr/lib/llvm-${LLVM_VER}/include:${PATH}
-LD_LIBRARY_PATH=/usr/lib/llvm-${LLVM_VER}/lib:${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
+export PATH=/usr/lib/llvm-${LLVM_VER}/bin:/usr/lib/llvm-${LLVM_VER}/include:${PATH}
+export LD_LIBRARY_PATH=/usr/lib/llvm-${LLVM_VER}/lib:${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
 
 # unversionize the binaries
 for bin in /usr/lib/llvm-${LLVM_VER}/bin/*; do
@@ -108,8 +108,8 @@ for bin in /usr/lib/llvm-${LLVM_VER}/bin/*; do
 done
 
 # update compiler environment vars
-CC=/usr/bin/clang
-CXX=/usr/bin/clang++
+export CC=/usr/bin/clang
+export CXX=/usr/bin/clang++
 
 # Set the default clang-tidy, so CMake can find it
 update-alternatives --install /usr/bin/clang-tidy clang-tidy $(which clang-tidy-${LLVM_VER}) ${LLVM_VER}
