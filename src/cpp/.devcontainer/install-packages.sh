@@ -97,7 +97,7 @@ apt-get install -y --no-install-recommends clang-${LLVM_VER} lldb-${LLVM_VER} ll
 
 # add llvm to path
 PATH=/usr/lib/llvm-${LLVM_VER}/bin:/usr/lib/llvm-${LLVM_VER}/include:${PATH}
-LD_LIBRARY_PATH="/usr/lib/llvm-${LLVM_VER}/lib:${LD_LIBRARY_PATH}"
+LD_LIBRARY_PATH=/usr/lib/llvm-${LLVM_VER}/lib:${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
 
 # unversionize the binaries
 for bin in /usr/lib/llvm-${LLVM_VER}/bin/*; do
