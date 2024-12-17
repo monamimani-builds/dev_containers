@@ -59,7 +59,7 @@ EOF
 
 apt-get update
 apt-get upgrade -y
-apt-get install -y --no-install-recommends git git-lfs cmake ninja-build
+apt-get install -y --no-install-recommends git git-lfs ninja-build
 apt-get install -y --no-install-recommends doxygen graphviz ccache cppcheck valgrind
 apt-get install -y --no-install-recommends software-properties-common pip curl zip unzip tar pkg-config wget gpg-agent
 add-apt-repository -y ppa:ubuntu-toolchain-r/test
@@ -68,18 +68,61 @@ apt-get update
 apt-get purge -y cmake && apt-get autoremove -y
 apt-get purge -y gcc-* && apt-get autoremove -y
 apt-get purge -y libstdc++-* && apt-get autoremove -y
-#apt-get purge -y llvm-* && apt-get autoremove -y
+apt-get purge -y llvm-* && apt-get autoremove -y
 
-#install gcc
+# +-----------------------------+
+# | GCC                         |
+# +-----------------------------+
+echo "Install GCC"
 GCC_VER="15"
 apt install -y gcc-${GCC_VER} g++-${GCC_VER} libstdc++-${GCC_VER}-dev
 add-apt-repository -y --remove ppa:ubuntu-toolchain-r/test
 update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${GCC_VER} ${GCC_VER}
 update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-${GCC_VER} ${GCC_VER}
 
-pushd /tmp/
-echo "Install cmake"
+# +-----------------------------+
+# | LLVM                        |
+# +-----------------------------+
+echo "Install LLVM"
+LLVM_VER="19"
 
+# wget https://apt.llvm.org/llvm.sh
+# chmod +x llvm.sh
+# ./llvm.sh ${LLVM_VER}
+# rm ./llvm.sh
+
+apt-get install -y --no-install-recommends clang-${LLVM_VER} lldb-${LLVM_VER} lld-${LLVM_VER} \
+        clangd-${LLVM_VER} clang-tidy-${LLVM_VER} clang-format-${LLVM_VER} libc++-${LLVM_VER}-dev \
+        libc++abi-${LLVM_VER}-dev libclang-rt-${LLVM_VER}-dev llvm-$LLVM_VER-dev
+
+# add llvm to path
+PATH=/usr/lib/llvm-${LLVM_VER}/bin:/usr/lib/llvm-${LLVM_VER}/include:${PATH}
+LD_LIBRARY_PATH="/usr/lib/llvm-${LLVM_VER}/lib:${LD_LIBRARY_PATH}"
+
+# unversionize the binaries
+for bin in /usr/lib/llvm-${LLVM_VER}/bin/*; do
+  bin=$(basename ${bin})
+  if [ -f /usr/bin/${bin}-${LLVM_VER} ]; then
+    ln -sf /usr/bin/${bin}-${LLVM_VER} /usr/bin/${bin}
+  fi
+done
+
+# update compiler environment vars
+CC=/usr/bin/clang
+CXX=/usr/bin/clang++
+
+# Set the default clang-tidy, so CMake can find it
+update-alternatives --install /usr/bin/clang-tidy clang-tidy $(which clang-tidy-${LLVM_VER}) ${LLVM_VER}
+update-alternatives --install /usr/bin/clang-format clang-format $(which clang-format-${LLVM_VER}) ${LLVM_VER}
+
+# Set clang-${LLVM_VER} as default clang
+update-alternatives --install /usr/bin/clang clang $(which clang-${LLVM_VER}) ${LLVM_VER}
+update-alternatives --install /usr/bin/clang++ clang++ $(which clang++-${LLVM_VER}) ${LLVM_VER}
+
+# +-----------------------------+
+# | CMake                       |
+# +-----------------------------+
+echo "Install cmake"
 pip install cmake --no-cache-dir --break-system-packages
 
 #Use binary from Kitware to gety 3.29 because 3.28.3 causes issue with clang-tidy on noble.
@@ -101,33 +144,6 @@ pip install cmake --no-cache-dir --break-system-packages
 # ./kitware-archive.sh
 # apt install -y cmake
 
-echo "Install LLVM"
-# wget https://apt.llvm.org/llvm.sh
-# chmod +x llvm.sh
-
-LLVM_VER="19"
-# ./llvm.sh ${LLVM_VER}
-
-apt-get install -y --no-install-recommends clang-${LLVM_VER} lldb-${LLVM_VER} lld-${LLVM_VER} clangd-${LLVM_VER} \
-                      clang-tidy-${LLVM_VER} clang-format-${LLVM_VER} libc++-${LLVM_VER}-dev libc++abi-${LLVM_VER}-dev \
-                      libclang-rt-${LLVM_VER}-dev llvm-$LLVM_VER-dev
-popd
-
-for bin in /usr/lib/llvm-${LLVM_VER}/bin/*; do
-  bin=$(basename ${bin})
-  if [ -f /usr/bin/${bin}-${LLVM_VER} ]; then
-    ln -sf /usr/bin/${bin}-${LLVM_VER} /usr/bin/${bin}
-  fi
-done
-
-# Set the default clang-tidy, so CMake can find it
-# update-alternatives --install /usr/bin/clang-tidy clang-tidy $(which clang-tidy-${LLVM_VER}) 100
-# update-alternatives --install /usr/bin/clang-format clang-format $(which clang-format-${LLVM_VER}) 100
-
-# Set clang-${LLVM_VER} as default clang
-# update-alternatives --install /usr/bin/clang clang $(which clang-${LLVM_VER}) 100
-# update-alternatives --install /usr/bin/clang++ clang++ $(which clang++-${LLVM_VER}) 100
-
 
 # Install Powershell
 # source /etc/os-release
@@ -142,7 +158,7 @@ done
 echo "Cleanup"
 pip cache remove cmake
 pip cache purge
-apt-get purge -y software-properties-common pip
+apt-get purge -y software-properties-common pip libmpfr-dev libgmp3-dev libmpc-dev
 apt-get autoremove -y
 apt-get clean -y
 rm -rf /var/lib/apt/lists/*
