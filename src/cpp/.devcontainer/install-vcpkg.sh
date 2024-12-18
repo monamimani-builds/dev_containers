@@ -48,7 +48,7 @@ git clone \
     # --branch=master \
     # --no-tags \
 
-git config --system --add safe.directory "$VCPKG_ROOT" 
+git config --system --add safe.directory "$VCPKG_ROOT"
 git fetch --unshallow
 git pull --ff-only
 bootstrap-vcpkg.sh
@@ -72,6 +72,7 @@ if [[ "\${PATH}" != *"\${VCPKG_ROOT}"* ]]; then export PATH="\${PATH}:\${VCPKG_R
 EOF
 )"
 
-# Enable tab completion for bash and zsh
-VCPKG_FORCE_SYSTEM_BINARIES=1 su "vscode" -c "${VCPKG_ROOT}/vcpkg integrate bash"
+USERNAME=$1
+# Enable tab completion for bash
+VCPKG_FORCE_SYSTEM_BINARIES=1 su "${USERNAME}" -c "${VCPKG_ROOT}/vcpkg integrate bash"
 VCPKG_FORCE_SYSTEM_BINARIES=1 su "root" -c "${VCPKG_ROOT}/vcpkg integrate bash"
