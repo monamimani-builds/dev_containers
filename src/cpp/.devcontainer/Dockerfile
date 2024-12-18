@@ -49,4 +49,4 @@ RUN SNIPPET="export PROMPT_COMMAND='history -a' && export HISTFILE=/commandhisto
     && echo "$SNIPPET" >> "/home/$USERNAME/.bashrc"
 
 # [Optional] Set the default user. Omit if you want to keep the default as root.
-USER $USERNAME
+#USER $USERNAME
