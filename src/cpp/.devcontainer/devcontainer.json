@@ -26,6 +26,7 @@
         "ms-vscode.cpptools",
         "ms-vscode.cpptools-extension-pack",
         "josetr.cmake-language-support-vscode",
+        "llvm-vs-code-extensions.vscode-clangd",
         "EditorConfig.EditorConfig"
       ]
     }
