@@ -1,5 +1,5 @@
 name: Cpp devcontainer
-run-name: "Build container image with tag: ${{env.devContainer_image_tag}}"
+run-name: "Build container image with tag: ${{ github.event.inputs.image_tag == '' && github.sha || github.event.inputs.image_tag }}${{ github.event.inputs.image_tag_isLatest && ', latest' || '' }}"
 
 defaults:
   run:
