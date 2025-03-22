@@ -59,14 +59,3 @@ jobs:
           cacheFrom: ghcr.io/${{ github.repository_owner }}/${{env.devContainer_name}}${{env.devContainer_suffix}}
           imageTag: ${{ github.event.inputs.image_tag == '' && github.sha || github.event.inputs.image_tag }}
           push: always
-
-      # - name: Build container image with image tag
-      #   if: github.event.inputs.image_tag != ''
-      #   uses: devcontainers/ci@v0.3
-      #   with:
-      #     subFolder: ${{env.devContainer_folder}}
-      #     noCache: ${{github.event.inputs.devContainer_build_no_cache}}
-      #     imageName: ghcr.io/${{ github.repository_owner }}/${{env.devContainer_name}}${{env.devContainer_suffix}}
-      #     cacheFrom: ghcr.io/${{ github.repository_owner }}/${{env.devContainer_name}}${{env.devContainer_suffix}}
-      #     imageTag: ${{github.event.inputs.image_tag}}
-      #     push: always
