@@ -1,5 +1,5 @@
 name: Cpp devcontainer
-run-name: ${{ github.event_name == 'workflow_dispatch' && format('Build container image with tag ({0}{1})', (inputs.image_tag == '' && github.sha || inputs.image_tag), (inputs.image_tag_isLatest == true && ', latest' || '' )) || ''}}
+run-name: ${{ github.event_name == 'workflow_dispatch' && format('Build container with tag ({0}{1})', (inputs.image_tag == '' && github.sha || inputs.image_tag), (inputs.image_tag_isLatest == true && ', latest' || '' )) || ''}}
 
 defaults:
   run:

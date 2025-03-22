@@ -1,5 +1,5 @@
 name: Hugo devcontainer
-
+run-name: ${{ github.event_name == 'workflow_dispatch' && format('Build container with tag ({0}{1})', (inputs.image_tag == '' && github.sha || inputs.image_tag), (inputs.image_tag_isLatest == true && ', latest' || '' )) || ''}}
 
 defaults:
   run:
@@ -10,6 +10,11 @@ on:
     inputs:
       image_tag:
         description: "The tag version for the dev container image."
+    image_tag_isLatest:
+          description: "Tag the container image as latest."
+          required: true
+          type: boolean
+          default: false
       devContainer_build_no_cache:
         description: "Disable the image cache from when building"
         required: true
@@ -30,6 +35,7 @@ env:
   devContainer_suffix: "-devcontainer"
   devContainer_name: "hugo"
   devContainer_folder: "src/hugo"
+  devContainer_image_tag: ${{ inputs.image_tag == '' && github.sha || inputs.image_tag }}${{ inputs.image_tag_isLatest && ', latest' || '' }}
 
 jobs:
   build-and-push:
@@ -54,8 +60,8 @@ jobs:
         uses: devcontainers/ci@v0.3
         with:
           subFolder: ${{env.devContainer_folder}}
-          noCache: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.devContainer_build_no_cache || false }}
+          noCache: ${{ github.event_name == 'workflow_dispatch' && inputs.devContainer_build_no_cache || false }}
           imageName: ghcr.io/${{ github.repository_owner }}/${{env.devContainer_name}}${{env.devContainer_suffix}}
           cacheFrom: ghcr.io/${{ github.repository_owner }}/${{env.devContainer_name}}${{env.devContainer_suffix}}
-          imageTag: ${{ github.event.inputs.image_tag == '' && github.sha || github.event.inputs.image_tag }}
+          imageTag: ${{env.devContainer_image_tag}}
           push: always
