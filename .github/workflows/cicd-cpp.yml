@@ -1,5 +1,5 @@
 name: Cpp devcontainer
-run-name: ${{ github.event_name == 'workflow_dispatch' && format('Build container image with tag ({0}{1})', (github.event.inputs.image_tag == '' && github.sha || github.event.inputs.image_tag), (github.event.inputs.image_tag_isLatest == true && ', latest' || 'false' )) || ''}}
+run-name: ${{ github.event_name == 'workflow_dispatch' && format('Build container image with tag ({0}{1})', (inputs.image_tag == '' && github.sha || inputs.image_tag), (inputs.image_tag_isLatest == true && ', latest' || 'false' )) || ''}}
 
 defaults:
   run:
@@ -35,7 +35,7 @@ env:
   devContainer_suffix: "-devcontainer"
   devContainer_name: "cpp"
   devContainer_folder: "src/cpp"
-  devContainer_image_tag: ${{ github.event.inputs.image_tag == '' && github.sha || github.event.inputs.image_tag }}${{ github.event.inputs.image_tag_isLatest && ', latest' || '' }}
+  devContainer_image_tag: ${{ inputs.image_tag == '' && github.sha || inputs.image_tag }}${{ inputs.image_tag_isLatest && ', latest' || '' }}
 
 jobs:
   build-and-push:
@@ -60,7 +60,7 @@ jobs:
         uses: devcontainers/ci@v0.3
         with:
           subFolder: ${{env.devContainer_folder}}
-          noCache: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.devContainer_build_no_cache || false }}
+          noCache: ${{ github.event_name == 'workflow_dispatch' && inputs.devContainer_build_no_cache || false }}
           imageName: ghcr.io/${{ github.repository_owner }}/${{env.devContainer_name}}${{env.devContainer_suffix}}
           cacheFrom: ghcr.io/${{ github.repository_owner }}/${{env.devContainer_name}}${{env.devContainer_suffix}}
           imageTag: ${{env.devContainer_image_tag}}
