@@ -1,5 +1,5 @@
-name: Cpp devcontainer ${{ github.event.inputs.image_tag_isLatest && 'imageTag: latest' || '' }}
-
+name: Cpp devcontainer
+run-name: "Build container image with tag: ${{env.devContainer_image_tag}}"
 
 defaults:
   run:
@@ -35,6 +35,7 @@ env:
   devContainer_suffix: "-devcontainer"
   devContainer_name: "cpp"
   devContainer_folder: "src/cpp"
+  devContainer_image_tag: ${{ github.event.inputs.image_tag == '' && github.sha || github.event.inputs.image_tag }}${{ github.event.inputs.image_tag_isLatest && ', latest' || '' }}
 
 jobs:
   build-and-push:
@@ -62,5 +63,5 @@ jobs:
           noCache: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.devContainer_build_no_cache || false }}
           imageName: ghcr.io/${{ github.repository_owner }}/${{env.devContainer_name}}${{env.devContainer_suffix}}
           cacheFrom: ghcr.io/${{ github.repository_owner }}/${{env.devContainer_name}}${{env.devContainer_suffix}}
-          imageTag: ${{ github.event.inputs.image_tag == '' && github.sha || github.event.inputs.image_tag }}${{ github.event.inputs.image_tag_isLatest && ', latest' || '' }}
+          imageTag: ${{env.devContainer_image_tag}}
           push: always
