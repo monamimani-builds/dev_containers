@@ -62,5 +62,5 @@ jobs:
           noCache: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.devContainer_build_no_cache || false }}
           imageName: ghcr.io/${{ github.repository_owner }}/${{env.devContainer_name}}${{env.devContainer_suffix}}
           cacheFrom: ghcr.io/${{ github.repository_owner }}/${{env.devContainer_name}}${{env.devContainer_suffix}}
-          imageTag: ${{ github.event.inputs.image_tag == '' && github.sha || github.event.inputs.image_tag }}${{ github.event.inputs.image_tag_isLatest == true && ', latest' || '' }}
+          imageTag: ${{ github.event.inputs.image_tag == '' && github.sha || github.event.inputs.image_tag }}${{ github.event.inputs.image_tag_isLatest && ', latest' || '' }}
           push: always
