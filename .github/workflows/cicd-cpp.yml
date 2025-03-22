@@ -10,11 +10,16 @@ on:
     inputs:
       image_tag:
         description: "The tag version for the dev container image."
-      devContainer_build_no_cache:
-        description: "Disable the image cache from when building"
+      image_tag_isLatest:
+        description: "Tag the container image as latest."
         required: true
-        default: false
         type: boolean
+        default: false
+      devContainer_build_no_cache:
+        description: "Disable the image cache from when building."
+        required: true
+        type: boolean
+        default: false
   push:
     branches:
       - dev
@@ -57,5 +62,5 @@ jobs:
           noCache: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.devContainer_build_no_cache || false }}
           imageName: ghcr.io/${{ github.repository_owner }}/${{env.devContainer_name}}${{env.devContainer_suffix}}
           cacheFrom: ghcr.io/${{ github.repository_owner }}/${{env.devContainer_name}}${{env.devContainer_suffix}}
-          imageTag: ${{ github.event.inputs.image_tag == '' && github.sha || github.event.inputs.image_tag }}
+          imageTag: ${{ github.event.inputs.image_tag == '' && github.sha || github.event.inputs.image_tag }}, ${{ github.event.inputs.image_tag_isLatest == '' && latest }}
           push: always
