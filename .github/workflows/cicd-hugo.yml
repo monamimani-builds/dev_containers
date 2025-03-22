@@ -10,7 +10,7 @@ on:
     inputs:
       image_tag:
         description: "The tag version for the dev container image."
-    image_tag_isLatest:
+      image_tag_isLatest:
           description: "Tag the container image as latest."
           required: true
           type: boolean
