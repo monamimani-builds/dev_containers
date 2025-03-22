@@ -1,4 +1,4 @@
-name: Cpp devcontainer
+name: Cpp devcontainer ${{ github.event.inputs.image_tag_isLatest && 'imageTag: latest' || '' }}
 
 
 defaults:
