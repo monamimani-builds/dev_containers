@@ -84,7 +84,7 @@ update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-${GCC_VER} ${GCC_VER
 # | LLVM                        |
 # +-----------------------------+
 echo "Install LLVM"
-LLVM_VER="19"
+LLVM_VER="20"
 
 # wget https://apt.llvm.org/llvm.sh
 # chmod +x llvm.sh
