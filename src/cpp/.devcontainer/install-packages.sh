@@ -59,7 +59,7 @@ EOF
 
 apt-get update
 apt-get upgrade -y
-apt-get install -y --no-install-recommends git git-lfs ninja-build
+apt-get install -y --no-install-recommends git git-lfs ninja-build ssh
 apt-get install -y --no-install-recommends doxygen graphviz ccache cppcheck valgrind
 apt-get install -y --no-install-recommends software-properties-common pip curl zip unzip tar pkg-config wget gpg-agent gdb
 add-apt-repository -y ppa:ubuntu-toolchain-r/test
