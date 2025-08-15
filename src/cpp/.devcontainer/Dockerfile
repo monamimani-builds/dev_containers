@@ -1,4 +1,4 @@
-FROM ubuntu:Questing
+FROM ubuntu:questing
 #FROM ubuntu:plucky
 
 
