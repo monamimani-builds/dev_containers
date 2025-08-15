@@ -62,7 +62,11 @@ apt-get upgrade -y
 apt-get install -y --no-install-recommends git git-lfs ninja-build ssh
 apt-get install -y --no-install-recommends doxygen graphviz ccache cppcheck valgrind
 apt-get install -y --no-install-recommends software-properties-common pip curl zip unzip tar pkg-config wget gpg-agent gdb
+
+# Adding test and qualification repository for gcc and clang
 add-apt-repository -y ppa:ubuntu-toolchain-r/test
+wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key | tee /etc/apt/trusted.gpg.d/apt.llvm.org.asc
+
 apt-get update
 
 apt-get purge -y cmake && apt-get autoremove -y
@@ -91,9 +95,6 @@ LLVM_VER="21"
 # chmod +x llvm.sh
 # ./llvm.sh ${LLVM_VER}
 # rm ./llvm.sh
-
-# Install qualification branch
-wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key | tee /etc/apt/trusted.gpg.d/apt.llvm.org.asc
 
 # Install stable branch
 apt-get install -y --no-install-recommends clang-${LLVM_VER} lldb-${LLVM_VER} lld-${LLVM_VER} \
