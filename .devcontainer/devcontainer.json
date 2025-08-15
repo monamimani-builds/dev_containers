@@ -17,8 +17,11 @@
   "customizations": {
     "vscode": {
       "extensions": [
+        "github.vscode-github-actions",
         "ms-azuretools.vscode-docker",
-        "EditorConfig.EditorConfig"
+        "EditorConfig.EditorConfig",
+        "Google.geminicodeassist",
+        "google.gemini-cli-vscode-ide-companion"
       ]
     }
   },
