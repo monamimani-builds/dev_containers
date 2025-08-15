@@ -103,6 +103,10 @@ apt-get install -y --no-install-recommends clang-${LLVM_VER} clang-scan-deps-${L
         clangd-${LLVM_VER} clang-tidy-${LLVM_VER} clang-format-${LLVM_VER} libc++-${LLVM_VER}-dev \
         libc++abi-${LLVM_VER}-dev libclang-rt-${LLVM_VER}-dev llvm-$LLVM_VER-dev
 
+if [ -f /usr/lib/llvm-20 ]; then
+    rm -rf /usr/lib/llvm-20
+fi
+
 # unversionize the binaries
 for bin in /usr/lib/llvm-${LLVM_VER}/bin/*; do
   bin=$(basename ${bin})
