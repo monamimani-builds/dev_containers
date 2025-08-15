@@ -84,13 +84,18 @@ update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-${GCC_VER} ${GCC_VER
 # | LLVM                        |
 # +-----------------------------+
 echo "Install LLVM"
-LLVM_VER="20"
+LLVM_VER="21"
 
+# Automatic installation script
 # wget https://apt.llvm.org/llvm.sh
 # chmod +x llvm.sh
 # ./llvm.sh ${LLVM_VER}
 # rm ./llvm.sh
 
+# Install qualification branch
+wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key | sudo tee /etc/apt/trusted.gpg.d/apt.llvm.org.asc
+
+# Install stable branch
 apt-get install -y --no-install-recommends clang-${LLVM_VER} lldb-${LLVM_VER} lld-${LLVM_VER} \
         clangd-${LLVM_VER} clang-tidy-${LLVM_VER} clang-format-${LLVM_VER} libc++-${LLVM_VER}-dev \
         libc++abi-${LLVM_VER}-dev libclang-rt-${LLVM_VER}-dev llvm-$LLVM_VER-dev
