@@ -65,6 +65,8 @@ apt-get install -y --no-install-recommends software-properties-common pip curl z
 
 # Adding test and qualification repository for gcc and clang
 add-apt-repository -y ppa:ubuntu-toolchain-r/test
+add-apt-repository 'ded http://apt.llvm.org/plucky/ llvm-toolchain-plucky-21 main'
+add-apt-repository 'deb-src http://apt.llvm.org/plucky/ llvm-toolchain-plucky-21 main'
 wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key | tee /etc/apt/trusted.gpg.d/apt.llvm.org.asc
 
 apt-get update
