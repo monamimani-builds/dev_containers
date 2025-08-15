@@ -1,5 +1,5 @@
-FROM ubuntu:plucky
-#FROM ubuntu:noble
+FROM ubuntu:Questing
+#FROM ubuntu:plucky
 
 
 # Setup ENV vars for vcpkg
