@@ -97,7 +97,7 @@ apt-get update
 
 #apt-get install -y gcc-${GCC_VER}/questing-proposed g++-${GCC_VER}/questing-proposed libstdc++-${GCC_VER}-dev/questing-proposed
 
-apt-get install -y gcc-${GCC_VER}/questing-proposed g++-${GCC_VER}/questing-proposed libstdc++-${GCC_VER}-dev/questing-proposed
+apt-get install -y gcc-${GCC_VER} g++-${GCC_VER} libstdc++-${GCC_VER}-dev
 #add-apt-repository -y --remove ppa:ubuntu-toolchain-r/test
 add-apt-repository -y --remove 'deb http://archive.ubuntu.com/ubuntu questing-proposed main restricted universe multiverse'
 update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${GCC_VER} ${GCC_VER}
