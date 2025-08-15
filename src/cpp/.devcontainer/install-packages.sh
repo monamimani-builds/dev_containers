@@ -84,7 +84,7 @@ GCC_VER="15"
 # add-apt-repository -y ppa:ubuntu-toolchain-r/test
 add-apt-repository 'deb http://archive.ubuntu.com/ubuntu questing-proposed main restricted universe multiverse'
 PREFERENCES_FILE="/etc/apt/preferences.d/ubuntu-proposed-priority"
-TARGET_PACKAGES="gcc-${GCC_VER} g++-${GCC_VER} libstdc++-${GCC_VER}-dev"
+TARGET_PACKAGES="gcc-${GCC_VER}* g++-${GCC_VER}* libstdc++-${GCC_VER}* cpp-${GCC_VER}* libgcc-${GCC_VER}* binutils* libc6-dev*"
 cat <<EOF > "$PREFERENCES_FILE"
 Package: ${TARGET_PACKAGES}
 Pin: release a=questing-proposed
