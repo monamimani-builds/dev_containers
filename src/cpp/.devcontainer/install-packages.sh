@@ -99,7 +99,7 @@ LLVM_VER="21"
 # rm ./llvm.sh
 
 # Install stable branch
-apt-get install -y --no-install-recommends clang-${LLVM_VER} clang-scan-deps-${LLVM_VER} lldb-${LLVM_VER} lld-${LLVM_VER} \
+apt-get install -y --no-install-recommends clang-${LLVM_VER} lldb-${LLVM_VER} lld-${LLVM_VER} \
         clangd-${LLVM_VER} clang-tidy-${LLVM_VER} clang-format-${LLVM_VER} libc++-${LLVM_VER}-dev \
         libc++abi-${LLVM_VER}-dev libclang-rt-${LLVM_VER}-dev llvm-$LLVM_VER-dev
 
