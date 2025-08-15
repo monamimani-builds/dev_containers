@@ -63,9 +63,7 @@ apt-get install -y --no-install-recommends git git-lfs ninja-build ssh npm
 apt-get install -y --no-install-recommends doxygen graphviz ccache cppcheck valgrind
 apt-get install -y --no-install-recommends software-properties-common pip curl zip unzip tar pkg-config wget gpg-agent gdb
 
-# Adding test and qualification repository for gcc and clang
-# add-apt-repository -y ppa:ubuntu-toolchain-r/test
-add-apt-repository 'deb http://archive.ubuntu.com/ubuntu questing-proposed main restricted universe multiverse'
+# Adding test and qualification repository for clang
 # add-apt-repository 'deb http://apt.llvm.org/plucky/ llvm-toolchain-plucky-21 main'
 # add-apt-repository 'deb-src http://apt.llvm.org/plucky/ llvm-toolchain-plucky-21 main'
 # wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key | tee /etc/apt/trusted.gpg.d/apt.llvm.org.asc
@@ -82,11 +80,26 @@ apt-get purge -y llvm-* && apt-get autoremove -y
 # +-----------------------------+
 echo "Install GCC"
 GCC_VER="15"
-apt-get install -y cpp-${GCC_VER}/questing-proposed gcc-${GCC_VER}-base/questing-proposed g++-${GCC_VER}-x86-64-linux-gnu/questing-proposed
+
+# add-apt-repository -y ppa:ubuntu-toolchain-r/test
+add-apt-repository 'deb http://archive.ubuntu.com/ubuntu questing-proposed main restricted universe multiverse'
+PREFERENCES_FILE="/etc/apt/preferences.d/ubuntu-proposed-priority"
+TARGET_PACKAGES="gcc-${GCC_VER} g++-${GCC_VER} libstdc++-${GCC_VER}-dev"
+cat <<EOF > "$PREFERENCES_FILE"
+Package: ${TARGET_PACKAGES}
+Pin: release a=questing-proposed
+Pin-Priority: 900
+EOF
+apt-get update
+
+#apt-get install -y cpp-${GCC_VER}/questing-proposed gcc-${GCC_VER}-base/questing-proposed g++-${GCC_VER}-x86-64-linux-gnu/questing-proposed
 #apt install -y libc6-dev/questing-proposed libstdc++6/questing-proposed libgcc-${GCC_VER}-dev/questing-proposed
 
+#apt-get install -y gcc-${GCC_VER}/questing-proposed g++-${GCC_VER}/questing-proposed libstdc++-${GCC_VER}-dev/questing-proposed
+
 apt-get install -y gcc-${GCC_VER}/questing-proposed g++-${GCC_VER}/questing-proposed libstdc++-${GCC_VER}-dev/questing-proposed
-add-apt-repository -y --remove ppa:ubuntu-toolchain-r/test
+#add-apt-repository -y --remove ppa:ubuntu-toolchain-r/test
+add-apt-repository -y --remove 'deb http://archive.ubuntu.com/ubuntu questing-proposed main restricted universe multiverse'
 update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${GCC_VER} ${GCC_VER}
 update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-${GCC_VER} ${GCC_VER}
 
