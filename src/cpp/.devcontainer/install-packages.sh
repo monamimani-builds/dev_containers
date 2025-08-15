@@ -76,34 +76,6 @@ apt-get purge -y libstdc++-* && apt-get autoremove -y
 apt-get purge -y llvm-* && apt-get autoremove -y
 
 # +-----------------------------+
-# | GCC                         |
-# +-----------------------------+
-echo "Install GCC"
-GCC_VER="15"
-
-# add-apt-repository -y ppa:ubuntu-toolchain-r/test
-add-apt-repository 'deb http://archive.ubuntu.com/ubuntu questing-proposed main restricted universe multiverse'
-PREFERENCES_FILE="/etc/apt/preferences.d/ubuntu-proposed-priority"
-TARGET_PACKAGES="gcc-${GCC_VER}* g++-${GCC_VER}* libstdc++-${GCC_VER}* cpp-${GCC_VER}* libgcc-${GCC_VER}* binutils* libc6-dev* libstdc++6*"
-cat <<EOF > "$PREFERENCES_FILE"
-Package: *
-Pin: release a=questing-proposed
-Pin-Priority: 900
-EOF
-apt-get update
-
-#apt-get install -y cpp-${GCC_VER}/questing-proposed gcc-${GCC_VER}-base/questing-proposed g++-${GCC_VER}-x86-64-linux-gnu/questing-proposed
-#apt install -y libc6-dev/questing-proposed libstdc++6/questing-proposed libgcc-${GCC_VER}-dev/questing-proposed
-
-#apt-get install -y gcc-${GCC_VER}/questing-proposed g++-${GCC_VER}/questing-proposed libstdc++-${GCC_VER}-dev/questing-proposed
-
-apt-get install -y gcc-${GCC_VER} g++-${GCC_VER} libstdc++-${GCC_VER}-dev
-#add-apt-repository -y --remove ppa:ubuntu-toolchain-r/test
-add-apt-repository -y --remove 'deb http://archive.ubuntu.com/ubuntu questing-proposed main restricted universe multiverse'
-update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${GCC_VER} ${GCC_VER}
-update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-${GCC_VER} ${GCC_VER}
-
-# +-----------------------------+
 # | LLVM                        |
 # +-----------------------------+
 echo "Install LLVM"
@@ -139,6 +111,34 @@ update-alternatives --install /usr/bin/clang-format clang-format $(which clang-f
 # Set clang-${LLVM_VER} as default clang
 update-alternatives --install /usr/bin/clang clang $(which clang-${LLVM_VER}) ${LLVM_VER}
 update-alternatives --install /usr/bin/clang++ clang++ $(which clang++-${LLVM_VER}) ${LLVM_VER}
+
+# +-----------------------------+
+# | GCC                         |
+# +-----------------------------+
+echo "Install GCC"
+GCC_VER="15"
+
+# add-apt-repository -y ppa:ubuntu-toolchain-r/test
+add-apt-repository 'deb http://archive.ubuntu.com/ubuntu questing-proposed main restricted universe multiverse'
+PREFERENCES_FILE="/etc/apt/preferences.d/ubuntu-proposed-priority"
+TARGET_PACKAGES="gcc-${GCC_VER}* g++-${GCC_VER}* libstdc++-${GCC_VER}* cpp-${GCC_VER}* libgcc-${GCC_VER}* binutils* libc6-dev* libstdc++6*"
+cat <<EOF > "$PREFERENCES_FILE"
+Package: *
+Pin: release a=questing-proposed
+Pin-Priority: 900
+EOF
+apt-get update
+
+#apt-get install -y cpp-${GCC_VER}/questing-proposed gcc-${GCC_VER}-base/questing-proposed g++-${GCC_VER}-x86-64-linux-gnu/questing-proposed
+#apt install -y libc6-dev/questing-proposed libstdc++6/questing-proposed libgcc-${GCC_VER}-dev/questing-proposed
+
+#apt-get install -y gcc-${GCC_VER}/questing-proposed g++-${GCC_VER}/questing-proposed libstdc++-${GCC_VER}-dev/questing-proposed
+
+apt-get install -y --no-install-recommends gcc-${GCC_VER} g++-${GCC_VER} libstdc++-${GCC_VER}-dev
+#add-apt-repository -y --remove ppa:ubuntu-toolchain-r/test
+add-apt-repository -y --remove 'deb http://archive.ubuntu.com/ubuntu questing-proposed main restricted universe multiverse'
+update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${GCC_VER} ${GCC_VER}
+update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-${GCC_VER} ${GCC_VER}
 
 # +-----------------------------+
 # | CMake                       |
