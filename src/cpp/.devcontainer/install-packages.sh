@@ -82,6 +82,9 @@ apt-get purge -y llvm-* && apt-get autoremove -y
 # +-----------------------------+
 echo "Install GCC"
 GCC_VER="15"
+apt install -y cpp-${GCC_VER}-base/questing-proposed gcc-${GCC_VER}-base/questing-proposed g++-${GCC_VER}-x86-64-linux-gnu/questing-proposed
+apt install -y libc6-dev/questing-proposed libstdc++6/questing-proposed libgcc-${GCC_VER}-dev/questing-proposed
+
 apt install -y gcc-${GCC_VER}/questing-proposed g++-${GCC_VER}/questing-proposed libstdc++-${GCC_VER}-dev/questing-proposed
 add-apt-repository -y --remove ppa:ubuntu-toolchain-r/test
 update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${GCC_VER} ${GCC_VER}
