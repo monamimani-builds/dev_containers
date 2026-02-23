@@ -33,8 +33,8 @@ permissions:
 
 env:
   devContainer_suffix: "-devcontainer"
-  devContainer_name: "cpp"
-  devContainer_folder: "src/cpp"
+  devContainer_name: "cpp-linux"
+  devContainer_folder: "src/cpp-linux"
   devContainer_image_tag: ${{ inputs.image_tag == '' && github.sha || inputs.image_tag }}${{ inputs.image_tag_isLatest && ', latest' || '' }}
 
 jobs:
