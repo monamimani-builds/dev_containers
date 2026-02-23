@@ -1,4 +1,4 @@
-FROM ubuntu:22.04 AS base
+FROM ubuntu:26.04 AS base
 
 COPY install-packages.sh /tmp/
 RUN chmod +x /tmp/install-packages.sh \

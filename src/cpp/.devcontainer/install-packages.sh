@@ -79,7 +79,7 @@ apt-get purge -y llvm-* && apt-get autoremove -y
 # | LLVM                        |
 # +-----------------------------+
 echo "Install LLVM"
-LLVM_VER="20"
+LLVM_VER="21"
 
 # Automatic installation script
 # wget https://apt.llvm.org/llvm.sh
@@ -119,7 +119,7 @@ echo "Install GCC"
 GCC_VER="15"
 
 # add-apt-repository -y ppa:ubuntu-toolchain-r/test
-add-apt-repository 'deb http://archive.ubuntu.com/ubuntu questing-proposed main restricted universe multiverse'
+add-apt-repository 'deb http://archive.ubuntu.com/ubuntu resolute-proposed main restricted universe multiverse'
 PREFERENCES_FILE="/etc/apt/preferences.d/ubuntu-proposed-priority"
 TARGET_PACKAGES="gcc-${GCC_VER}* g++-${GCC_VER}* libstdc++-${GCC_VER}* cpp-${GCC_VER}* libgcc-${GCC_VER}* binutils* libc6-dev* libstdc++6*"
 cat <<EOF > "$PREFERENCES_FILE"
