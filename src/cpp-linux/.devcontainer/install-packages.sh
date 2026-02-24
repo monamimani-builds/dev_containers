@@ -79,7 +79,7 @@ apt-get purge -y llvm-* && apt-get autoremove -y
 # | LLVM                        |
 # +-----------------------------+
 echo "Install LLVM"
-LLVM_VER="21"
+LLVM_VER="22"
 
 # Automatic installation script
 # wget https://apt.llvm.org/llvm.sh
