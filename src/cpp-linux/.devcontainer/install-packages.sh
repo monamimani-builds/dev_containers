@@ -61,7 +61,7 @@ apt-get update
 apt-get upgrade -y
 apt-get install -y --no-install-recommends git git-lfs ninja-build ssh npm
 apt-get install -y --no-install-recommends doxygen graphviz ccache cppcheck valgrind
-apt-get install -y --no-install-recommends software-properties-common pip curl zip unzip tar pkg-config wget gpg-agent gdb
+apt-get install -y --no-install-recommends software-properties-common pip curl zip unzip tar xz-utils pkg-config wget gpg-agent gdb
 
 # Adding test and qualification repository for clang
 # add-apt-repository 'deb http://apt.llvm.org/plucky/ llvm-toolchain-plucky-21 main'
@@ -79,22 +79,21 @@ apt-get purge -y llvm-* && apt-get autoremove -y
 # | LLVM                        |
 # +-----------------------------+
 echo "Install LLVM"
-LLVM_VER="22"
+LLVM_VER="22.1.0"
 
-# Automatic installation script
-# wget https://apt.llvm.org/llvm.sh
-# chmod +x llvm.sh
-# ./llvm.sh ${LLVM_VER}
-# rm ./llvm.sh
+echo "Downloading LLVM ${LLVM_VER} from official GitHub Release..."
+wget -q "https://github.com/llvm/llvm-project/releases/download/llvmorg-${LLVM_VER}/LLVM-${LLVM_VER}-Linux-X64.tar.xz" -O llvm.tar.xz
 
-# Install stable branch
-apt-get install -y --no-install-recommends clang-${LLVM_VER} lldb-${LLVM_VER} lld-${LLVM_VER} \
-        clangd-${LLVM_VER} clang-tidy-${LLVM_VER} clang-format-${LLVM_VER} libc++-${LLVM_VER}-dev \
-        libc++abi-${LLVM_VER}-dev libclang-rt-${LLVM_VER}-dev llvm-$LLVM_VER-dev
+echo "Extracting LLVM..."
+mkdir -p /usr/lib/llvm-${LLVM_VER}
+tar -xf llvm.tar.xz -C /usr/lib/llvm-${LLVM_VER} --strip-components=1
 
-if [ -f /usr/lib/llvm-20 ]; then
-    rm -rf /usr/lib/llvm-20
-fi
+echo "Cleaning up archive..."
+rm -f llvm.tar.xz
+
+
+
+
 
 # unversionize the binaries
 for bin in /usr/lib/llvm-${LLVM_VER}/bin/*; do
@@ -105,12 +104,12 @@ for bin in /usr/lib/llvm-${LLVM_VER}/bin/*; do
 done
 
 # Set the default clang-tidy, so CMake can find it
-update-alternatives --install /usr/bin/clang-tidy clang-tidy $(which clang-tidy-${LLVM_VER}) ${LLVM_VER}
-update-alternatives --install /usr/bin/clang-format clang-format $(which clang-format-${LLVM_VER}) ${LLVM_VER}
+update-alternatives --install /usr/bin/clang-tidy clang-tidy /usr/lib/llvm-${LLVM_VER}/bin/clang-tidy ${LLVM_VER%%.*}
+update-alternatives --install /usr/bin/clang-format clang-format /usr/lib/llvm-${LLVM_VER}/bin/clang-format ${LLVM_VER%%.*}
 
 # Set clang-${LLVM_VER} as default clang
-update-alternatives --install /usr/bin/clang clang $(which clang-${LLVM_VER}) ${LLVM_VER}
-update-alternatives --install /usr/bin/clang++ clang++ $(which clang++-${LLVM_VER}) ${LLVM_VER}
+update-alternatives --install /usr/bin/clang clang /usr/lib/llvm-${LLVM_VER}/bin/clang ${LLVM_VER%%.*}
+update-alternatives --install /usr/bin/clang++ clang++ /usr/lib/llvm-${LLVM_VER}/bin/clang++ ${LLVM_VER%%.*}
 
 # +-----------------------------+
 # | GCC                         |
@@ -179,7 +178,7 @@ pip install cmake --no-cache-dir --break-system-packages
 echo "Cleanup"
 pip cache remove cmake
 pip cache purge
-apt-get purge -y software-properties-common pip libmpfr-dev libgmp3-dev libmpc-dev
+apt-get purge -y software-properties-common pip libmpfr-dev libgmp3-dev libmpc-dev xz-utils
 apt-get autoremove -y
 apt-get clean -y
 rm -rf /var/lib/apt/lists/*
