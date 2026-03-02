@@ -79,7 +79,13 @@ apt-get purge -y llvm-* && apt-get autoremove -y
 # | LLVM                        |
 # +-----------------------------+
 echo "Install LLVM"
-LLVM_VER="22.1.0"
+
+LLVM_VER="latest"
+if [ "$LLVM_VER" = "latest" ]; then
+    # Fetch the absolute latest release tag from GitHub dynamically using curl
+    LATEST_URL=$(curl -w "%{url_effective}" -L -s -S https://github.com/llvm/llvm-project/releases/latest -o /dev/null)
+    LLVM_VER=$(basename $LATEST_URL | sed 's/^llvmorg-//')
+fi
 
 echo "Downloading LLVM ${LLVM_VER} from official GitHub Release..."
 wget -q "https://github.com/llvm/llvm-project/releases/download/llvmorg-${LLVM_VER}/LLVM-${LLVM_VER}-Linux-X64.tar.xz" -O llvm.tar.xz
@@ -116,6 +122,8 @@ update-alternatives --install /usr/bin/clang++ clang++ /usr/lib/llvm-${LLVM_VER}
 # +-----------------------------+
 echo "Install GCC"
 
+GCC_VER="latest"
+
 source /etc/os-release
 UBUNTU_CODENAME=$VERSION_CODENAME
 
@@ -123,9 +131,11 @@ UBUNTU_CODENAME=$VERSION_CODENAME
 add-apt-repository -y "deb http://archive.ubuntu.com/ubuntu ${UBUNTU_CODENAME}-proposed main restricted universe multiverse"
 apt-get update
 
-# Dynamically find the latest GCC version available (e.g. "15", "16")
-GCC_VER=$(apt-cache search "^gcc-[0-9]+$" | grep -oP "^gcc-[0-9]+" | sort -V | tail -n 1 | sed 's/gcc-//')
-echo "Found latest GCC version: $GCC_VER"
+if [ "$GCC_VER" = "latest" ]; then
+    # Dynamically find the latest GCC version available natively in apt (e.g. "15", "16")
+    GCC_VER=$(apt-cache search "^gcc-[0-9]+$" | grep -oP "^gcc-[0-9]+" | sort -V | tail -n 1 | sed 's/gcc-//')
+fi
+echo "Found GCC version: $GCC_VER"
 
 # Install latest GCC prioritizing the proposed repository using -t
 apt-get install -y -t "${UBUNTU_CODENAME}-proposed" --no-install-recommends gcc-${GCC_VER} g++-${GCC_VER} libstdc++-${GCC_VER}-dev
@@ -140,28 +150,17 @@ update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-${GCC_VER} ${GCC_VER
 # +-----------------------------+
 # | CMake                       |
 # +-----------------------------+
-echo "Install cmake"
-pip install cmake --no-cache-dir --break-system-packages
+echo "Install CMake"
+# pip install cmake --no-cache-dir --break-system-packages
 
-#Use binary from Kitware to gety 3.29 because 3.28.3 causes issue with clang-tidy on noble.
-# if dpkg -s cmake > /dev/null 2>&1; then
-#    apt-get purge -y cmake && apt-get autoremove -y
-# fi
-# wget https://github.com/Kitware/CMake/releases/download/v3.28.3/cmake-3.28.3-linux-x86_64.sh
-# chmod +x cmake-3.28.3-linux-x86_64.sh
-# ./cmake-3.28.3-linux-x86_64.sh --skip-license --prefix=/usr/local --exclude-subdir
+CMAKE_VER="4.2.3"
+echo "Downloading CMake ${CMAKE_VER}..."
+wget -q "https://github.com/Kitware/CMake/releases/download/v${CMAKE_VER}/cmake-${CMAKE_VER}-linux-x86_64.sh"
 
-# update-alternatives --install /usr/bin/cmake cmake /usr/local/cmake-3.28.3-linux-x86_64/bin/cmake 3290
-# update-alternatives --install /usr/bin/ccmake ccmake /usr/local/cmake-3.28.3-linux-x86_64/bin/ccmake 3290
-# update-alternatives --install /usr/bin/cmake-gui cmake-gui /usr/local/cmake-3.28.3-linux-x86_64/bin/cmake-gui 3290
-# update-alternatives --install /usr/bin/cpack cpack /usr/local/cmake-3.28.3-linux-x86_64/bin/cpack 3290
-# update-alternatives --install /usr/bin/ctest ctest /usr/local/cmake-3.28.3-linux-x86_64/bin/ctest 3290
-
-# wget https://apt.kitware.com/kitware-archive.sh
-# chmod +x kitware-archive.sh
-# ./kitware-archive.sh
-# apt install -y cmake
-
+echo "Installing CMake..."
+chmod +x cmake-${CMAKE_VER}-linux-x86_64.sh
+./cmake-${CMAKE_VER}-linux-x86_64.sh --skip-license --prefix=/usr/local --exclude-subdir
+rm cmake-${CMAKE_VER}-linux-x86_64.sh
 
 # Install Powershell
 # source /etc/os-release
@@ -174,8 +173,8 @@ pip install cmake --no-cache-dir --break-system-packages
 
 # Cleaning
 echo "Cleanup"
-pip cache remove cmake
-pip cache purge
+# pip cache remove cmake
+# pip cache purge
 apt-get purge -y software-properties-common pip libmpfr-dev libgmp3-dev libmpc-dev xz-utils
 apt-get autoremove -y
 apt-get clean -y
