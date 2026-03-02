@@ -1,6 +1,4 @@
 FROM ubuntu:resolute
-#FROM ubuntu:plucky
-
 
 # Setup ENV vars for vcpkg
 ENV VCPKG_ROOT=/usr/local/vcpkg
@@ -16,22 +14,26 @@ ARG USER_GID=$USER_UID
 RUN if id -u $USER_UID ; then userdel `id -un $USER_UID` ; fi
 RUN groupadd --gid $USER_GID $USERNAME \
   && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME
-  #\
-  #
-  # [Optional] Add sudo support. Omit if you don't need to install software after connecting.
-  # && apt-get update \
-  # && apt-get install -y sudo \
-  # && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
-  # && chmod 0440 /etc/sudoers.d/$USERNAME
 
 WORKDIR /tmp
 
-COPY install-packages.sh .
-RUN chmod +x ./install-packages.sh \
-  && ./install-packages.sh \
-  && rm -f ./install-packages.sh
+# Layer 1: Base apt packages (git, ninja, gdb, ccache, etc.)
+COPY install-base.sh .
+RUN chmod +x ./install-base.sh && ./install-base.sh && rm -f ./install-base.sh
 
-#ADD "https://api.github.com/repos/microsoft/vcpkg/commits?per_page=1" latest_commit
+# Layer 2: LLVM (tarball download + prune + alternatives)
+COPY install-llvm.sh .
+RUN chmod +x ./install-llvm.sh && ./install-llvm.sh && rm -f ./install-llvm.sh
+
+# Layer 3: GCC (from ubuntu-proposed)
+COPY install-gcc.sh .
+RUN chmod +x ./install-gcc.sh && ./install-gcc.sh && rm -f ./install-gcc.sh
+
+# Layer 4: CMake (binary installer)
+COPY install-cmake.sh .
+RUN chmod +x ./install-cmake.sh && ./install-cmake.sh && rm -f ./install-cmake.sh
+
+# Layer 5: vcpkg
 COPY install-vcpkg.sh .
 RUN chmod +x ./install-vcpkg.sh \
   && ./install-vcpkg.sh ${USERNAME}\
