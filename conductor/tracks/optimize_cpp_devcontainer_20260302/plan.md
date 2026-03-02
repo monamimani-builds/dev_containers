@@ -1,8 +1,8 @@
 # Implementation Plan: Optimize C++ Devcontainer Size and Functionality
 
 ## Phase 1: Analysis and Profiling
-- [ ] Task: Write Tests
-    - [ ] Create a sample C++ project in the repository for validation (e.g., `tests/sample-cpp-project`) that exercises CMake, GCC, Clang, LTO, and sanitizers.
+- [x] Task: Write Tests [9909880]
+    - [x] Create a sample C++ project in the repository for validation (e.g., `tests/sample-cpp-project`) that exercises CMake, GCC, Clang, LTO, and sanitizers.
 - [ ] Task: Implement Feature - Analyze current devcontainer size
     - [ ] Build the current `cpp-linux` devcontainer image and inspect its layers.
     - [ ] Document the largest layers and dependencies contributing to the image size.
