@@ -1,5 +1,5 @@
 name: Cpp devcontainer
-run-name: ${{ github.event_name == 'workflow_dispatch' && format('Build container with tag ({0}{1})', (inputs.image_tag == '' && github.sha || inputs.image_tag), (inputs.image_tag_isLatest == true && ', latest' || '' )) || ''}}
+run-name: ${{ github.event_name == 'workflow_dispatch' && format('Build container with tag ({0}{1})', (inputs.image_tag == '' && github.sha || inputs.image_tag), (inputs.is_latest == true && ', latest' || '' )) || ''}}
 
 defaults:
   run:
@@ -10,12 +10,15 @@ on:
     inputs:
       image_tag:
         description: "The tag version for the dev container image."
-      image_tag_isLatest:
+        required: false
+        type: string
+        default: ""
+      is_latest:
         description: "Tag the container image as latest."
         required: true
         type: boolean
         default: false
-      devContainer_build_no_cache:
+      no_cache:
         description: "Disable the image cache from when building."
         required: true
         type: boolean
@@ -35,7 +38,7 @@ env:
   devContainer_suffix: "-devcontainer"
   devContainer_name: "cpp-linux"
   devContainer_folder: "src/cpp-linux"
-  devContainer_image_tag: ${{ inputs.image_tag == '' && github.sha || inputs.image_tag }}${{ inputs.image_tag_isLatest && ', latest' || '' }}
+  devContainer_image_tag: ${{ inputs.image_tag == '' && github.sha || inputs.image_tag }}${{ inputs.is_latest && ', latest' || '' }}
 
 jobs:
   build-and-push:
@@ -60,7 +63,7 @@ jobs:
         uses: devcontainers/ci@v0.3
         with:
           subFolder: ${{env.devContainer_folder}}
-          noCache: ${{ github.event_name == 'workflow_dispatch' && inputs.devContainer_build_no_cache || false }}
+          noCache: ${{ github.event_name == 'workflow_dispatch' && inputs.no_cache || false }}
           imageName: ghcr.io/${{ github.repository_owner }}/${{env.devContainer_name}}${{env.devContainer_suffix}}
           cacheFrom: type=registry,ref=ghcr.io/${{ github.repository_owner }}/${{env.devContainer_name}}${{env.devContainer_suffix}}-cache
           cacheTo: type=registry,ref=ghcr.io/${{ github.repository_owner }}/${{env.devContainer_name}}${{env.devContainer_suffix}}-cache,mode=max
