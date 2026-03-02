@@ -42,3 +42,16 @@ The devcontainer image for `cpp-linux` is composed of several layers, each insta
 | vcpkg (Repo + Tool) | 200 MB |
 | Base Image + Tools | 250 MB |
 | **Total** | **~1.1 GB** |
+
+## Actual Size Breakdown
+Based on `docker history` of the current `cpp-linux-orig` image:
+
+| Layer / Script | Size | Key Findings |
+|----------------|------|--------------|
+| `install-llvm.sh` | 1.57 GB | **Critical bottleneck.** Much larger than estimated. |
+| `install-base.sh` | 1.00 GB | **Significant bottleneck.** Likely contains redundant tools. |
+| `install-gcc.sh` | 391 MB | Larger than estimated. |
+| `install-vcpkg.sh` | 208 MB | Matches estimate, but can be optimized. |
+| `install-cmake.sh` | 136 MB | Moderate size. |
+| Base Image (Ubuntu) | 98.7 MB | Slim, but can still be improved. |
+| **Total (Image)** | **3.40 GB** | **Significantly larger than target.** |
