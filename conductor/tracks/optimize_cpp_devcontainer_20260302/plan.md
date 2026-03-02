@@ -3,7 +3,7 @@
 ## Phase 1: Analysis and Profiling
 - [x] Task: Write Tests [9909880]
     - [x] Create a sample C++ project in the repository for validation (e.g., `tests/sample-cpp-project`) that exercises CMake, GCC, Clang, LTO, and sanitizers.
-- [x] Task: Implement Feature - Analyze current devcontainer size
+- [x] Task: Implement Feature - Analyze current devcontainer size [2f62017]
     - [x] Build the current `cpp-linux` devcontainer image and inspect its layers.
     - [x] Document the largest layers and dependencies contributing to the image size.
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Analysis and Profiling' (Protocol in workflow.md)
