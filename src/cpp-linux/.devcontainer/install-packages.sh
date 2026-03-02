@@ -115,27 +115,25 @@ update-alternatives --install /usr/bin/clang++ clang++ /usr/lib/llvm-${LLVM_VER}
 # | GCC                         |
 # +-----------------------------+
 echo "Install GCC"
-GCC_VER="15"
 
-# add-apt-repository -y ppa:ubuntu-toolchain-r/test
-add-apt-repository 'deb http://archive.ubuntu.com/ubuntu resolute-proposed main restricted universe multiverse'
-PREFERENCES_FILE="/etc/apt/preferences.d/ubuntu-proposed-priority"
-TARGET_PACKAGES="gcc-${GCC_VER}* g++-${GCC_VER}* libstdc++-${GCC_VER}* cpp-${GCC_VER}* libgcc-${GCC_VER}* binutils* libc6-dev* libstdc++6*"
-cat <<EOF > "$PREFERENCES_FILE"
-Package: *
-Pin: release a=questing-proposed
-Pin-Priority: 900
-EOF
+source /etc/os-release
+UBUNTU_CODENAME=$VERSION_CODENAME
+
+# Add the proposed repository for the bleeding-edge GCC
+add-apt-repository -y "deb http://archive.ubuntu.com/ubuntu ${UBUNTU_CODENAME}-proposed main restricted universe multiverse"
 apt-get update
 
-#apt-get install -y cpp-${GCC_VER}/questing-proposed gcc-${GCC_VER}-base/questing-proposed g++-${GCC_VER}-x86-64-linux-gnu/questing-proposed
-#apt install -y libc6-dev/questing-proposed libstdc++6/questing-proposed libgcc-${GCC_VER}-dev/questing-proposed
+# Dynamically find the latest GCC version available (e.g. "15", "16")
+GCC_VER=$(apt-cache search "^gcc-[0-9]+$" | grep -oP "^gcc-[0-9]+" | sort -V | tail -n 1 | sed 's/gcc-//')
+echo "Found latest GCC version: $GCC_VER"
 
-#apt-get install -y gcc-${GCC_VER}/questing-proposed g++-${GCC_VER}/questing-proposed libstdc++-${GCC_VER}-dev/questing-proposed
+# Install latest GCC prioritizing the proposed repository using -t
+apt-get install -y -t "${UBUNTU_CODENAME}-proposed" --no-install-recommends gcc-${GCC_VER} g++-${GCC_VER} libstdc++-${GCC_VER}-dev
 
-apt-get install -y --no-install-recommends gcc-${GCC_VER} g++-${GCC_VER} libstdc++-${GCC_VER}-dev
-#add-apt-repository -y --remove ppa:ubuntu-toolchain-r/test
-add-apt-repository -y --remove 'deb http://archive.ubuntu.com/ubuntu questing-proposed main restricted universe multiverse'
+# Remove the proposed repository so it doesn't affect subsequent non-GCC installs
+add-apt-repository -y --remove "deb http://archive.ubuntu.com/ubuntu ${UBUNTU_CODENAME}-proposed main restricted universe multiverse"
+
+# Set default alternatives
 update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${GCC_VER} ${GCC_VER}
 update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-${GCC_VER} ${GCC_VER}
 
