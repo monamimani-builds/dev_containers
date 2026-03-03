@@ -9,9 +9,9 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Analysis and Profiling' (Protocol in workflow.md) [4ab2b7d]
 
 ## Phase 2: Base Image and Layer Optimization
-- [ ] Task: Write Tests
-    - [ ] Update the CI/CD pipeline or local test scripts to assert the image size does not exceed a new target threshold.
-- [ ] Task: Implement Feature - Optimize Dockerfile and base image
+- [x] Task: Write Tests [09870a5]
+    - [x] Update the CI/CD pipeline or local test scripts to assert the image size does not exceed a new target threshold.
+- [~] Task: Implement Feature - Optimize Dockerfile and base image
     - [ ] Refactor `Dockerfile` to combine `RUN` statements, minimize intermediate layers, and aggressively clean up `apt-get` caches (`rm -rf /var/lib/apt/lists/*`).
     - [ ] Evaluate and optionally switch to a slimmer base image (e.g., `ubuntu:22.04` minimal or `debian:bullseye-slim`).
     - [ ] Refactor installation scripts (`install-base.sh`, `install-cmake.sh`, `install-gcc.sh`, `install-llvm.sh`, `install-vcpkg.sh`) to remove unnecessary documentation, man pages, and temporary files during installation.
