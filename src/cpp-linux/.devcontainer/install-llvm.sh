@@ -24,7 +24,7 @@ apt-get update
 # Runtime deps kept in the layer (lldb links against libxml2, libpython, ncurses)
 apt-get install -y --no-install-recommends libxml2-16 libpython3.14 libncurses6
 # Temp deps purged at end of this layer
-apt-get install -y --no-install-recommends xz-utils aria2
+apt-get install -y --no-install-recommends aria2
 
 # +-----------------------------+
 # | Resolve latest LLVM version |
@@ -129,7 +129,7 @@ update-alternatives --install /usr/bin/llvm-symbolizer  llvm-symbolizer  ${LLVM_
 # +-----------------------------+
 # | Purge temp deps             |
 # +-----------------------------+
-apt-get purge -y xz-utils aria2
+apt-get purge -y aria2 xz-utils
 apt-get autoremove -y
 apt-get clean -y
 rm -rf /var/lib/apt/lists/*

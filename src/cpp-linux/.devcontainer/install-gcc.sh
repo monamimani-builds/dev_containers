@@ -55,7 +55,7 @@ find /usr/lib/gcc/ -name "*.so*" -type f -exec strip {} \; > /dev/null 2>&1 || t
 strip /usr/lib/x86_64-linux-gnu/libstdc++.so* /usr/lib/x86_64-linux-gnu/libasan.so* /usr/lib/x86_64-linux-gnu/libubsan.so* /usr/lib/x86_64-linux-gnu/libtsan.so* > /dev/null 2>&1 || true
 
 # Purge temp deps
-apt-get purge -y software-properties-common
+apt-get purge -y software-properties-common gpg-agent
 apt-get autoremove -y
 apt-get clean -y
 rm -rf /var/lib/apt/lists/*
