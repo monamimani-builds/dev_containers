@@ -11,11 +11,11 @@
 ## Phase 2: Base Image and Layer Optimization
 - [x] Task: Write Tests [09870a5]
     - [x] Update the CI/CD pipeline or local test scripts to assert the image size does not exceed a new target threshold.
-- [~] Task: Implement Feature - Optimize Dockerfile and base image
-    - [ ] Refactor `Dockerfile` to combine `RUN` statements, minimize intermediate layers, and aggressively clean up `apt-get` caches (`rm -rf /var/lib/apt/lists/*`).
-    - [ ] Evaluate and optionally switch to a slimmer base image (e.g., `ubuntu:22.04` minimal or `debian:bullseye-slim`).
-    - [ ] Refactor installation scripts (`install-base.sh`, `install-cmake.sh`, `install-gcc.sh`, `install-llvm.sh`, `install-vcpkg.sh`) to remove unnecessary documentation, man pages, and temporary files during installation.
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Base Image and Layer Optimization' (Protocol in workflow.md)
+- [x] Task: Implement Feature - Optimize Dockerfile and base image [4d783f2]
+    - [x] Refactor `Dockerfile` to combine `RUN` statements, minimize intermediate layers, and aggressively clean up `apt-get` caches (`rm -rf /var/lib/apt/lists/*`).
+    - [x] Evaluate and optionally switch to a slimmer base image (e.g., `ubuntu:22.04` minimal or `debian:bullseye-slim`).
+    - [x] Refactor installation scripts (`install-base.sh`, `install-cmake.sh`, `install-gcc.sh`, `install-llvm.sh`, `install-vcpkg.sh`) to remove unnecessary documentation, man pages, and temporary files during installation.
+- [~] Task: Conductor - User Manual Verification 'Phase 2: Base Image and Layer Optimization' (Protocol in workflow.md)
 
 ## Phase 3: Toolchain Verification and Finalization
 - [ ] Task: Write Tests
