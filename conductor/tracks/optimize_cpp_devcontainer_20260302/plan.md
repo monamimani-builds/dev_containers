@@ -18,11 +18,11 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Base Image and Layer Optimization' (Protocol in workflow.md) [1b9f645]
 
 ## Phase 3: Toolchain Verification and Finalization
-- [~] Task: Write Tests
-    - [ ] Add explicit build steps in the test project for both GCC and Clang.
-    - [ ] Add explicit build steps demonstrating GDB/LLDB debugging symbols are present.
-- [ ] Task: Implement Feature - Verify functionality
-    - [ ] Build the optimized devcontainer image.
-    - [ ] Run the sample C++ project compilation using the new devcontainer, verifying LTO and sanitizers work without errors.
-    - [ ] Verify GDB and LLDB can successfully attach and debug the sample project.
-- [ ] Task: Conductor - User Manual Verification 'Phase 3: Toolchain Verification and Finalization' (Protocol in workflow.md)
+- [x] Task: Write Tests [e16da02]
+    - [x] Add explicit build steps in the test project for both GCC and Clang.
+    - [x] Add explicit build steps demonstrating GDB/LLDB debugging symbols are present.
+- [x] Task: Implement Feature - Verify functionality
+    - [x] Build the optimized devcontainer image.
+    - [x] Run the sample C++ project compilation using the new devcontainer, verifying LTO and sanitizers work without errors.
+    - [x] Verify GDB and LLDB can successfully attach and debug the sample project.
+- [~] Task: Conductor - User Manual Verification 'Phase 3: Toolchain Verification and Finalization' (Protocol in workflow.md)
