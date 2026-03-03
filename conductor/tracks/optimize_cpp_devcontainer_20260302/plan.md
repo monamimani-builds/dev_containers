@@ -15,10 +15,10 @@
     - [x] Refactor `Dockerfile` to combine `RUN` statements, minimize intermediate layers, and aggressively clean up `apt-get` caches (`rm -rf /var/lib/apt/lists/*`).
     - [x] Evaluate and optionally switch to a slimmer base image (e.g., `ubuntu:22.04` minimal or `debian:bullseye-slim`).
     - [x] Refactor installation scripts (`install-base.sh`, `install-cmake.sh`, `install-gcc.sh`, `install-llvm.sh`, `install-vcpkg.sh`) to remove unnecessary documentation, man pages, and temporary files during installation.
-- [~] Task: Conductor - User Manual Verification 'Phase 2: Base Image and Layer Optimization' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: Base Image and Layer Optimization' (Protocol in workflow.md) [1b9f645]
 
 ## Phase 3: Toolchain Verification and Finalization
-- [ ] Task: Write Tests
+- [~] Task: Write Tests
     - [ ] Add explicit build steps in the test project for both GCC and Clang.
     - [ ] Add explicit build steps demonstrating GDB/LLDB debugging symbols are present.
 - [ ] Task: Implement Feature - Verify functionality
