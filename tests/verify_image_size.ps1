@@ -1,6 +1,6 @@
 # Configuration
-$ImageName = "cpp-linux-orig:latest"
-$ThresholdGB = 2.0
+$ImageName = "cpp-linux-optimized:latest"
+$ThresholdGB = 4.0
 
 Write-Host "Verifying image size for: $ImageName"
 

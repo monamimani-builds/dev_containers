@@ -48,9 +48,11 @@ add-apt-repository -y --remove "deb http://archive.ubuntu.com/ubuntu ${UBUNTU_CO
 update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${GCC_VER} ${GCC_VER}
 update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-${GCC_VER} ${GCC_VER}
 
-echo "Stripping GCC binaries..."
+echo "Stripping GCC binaries and libraries..."
 strip /usr/bin/gcc-${GCC_VER} /usr/bin/g++-${GCC_VER} > /dev/null 2>&1 || true
 find /usr/libexec/gcc/ -type f -executable -exec strip {} \; > /dev/null 2>&1 || true
+find /usr/lib/gcc/ -name "*.so*" -type f -exec strip {} \; > /dev/null 2>&1 || true
+strip /usr/lib/x86_64-linux-gnu/libstdc++.so* /usr/lib/x86_64-linux-gnu/libasan.so* /usr/lib/x86_64-linux-gnu/libubsan.so* /usr/lib/x86_64-linux-gnu/libtsan.so* > /dev/null 2>&1 || true
 
 # Purge temp deps
 apt-get purge -y software-properties-common

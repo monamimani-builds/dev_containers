@@ -54,14 +54,15 @@ echo "Reducing LLVM size to a minimal C++ toolchain..."
 # 1. /bin - keep only essential compiling/debugging/linting tools
 echo " -> Pruning unused LLVM binaries..."
 find /usr/lib/llvm-${LLVM_VER}/bin/ -type f \
-    | grep -vE '/(clang|clang\+\+|clang-[0-9]+|clang-cpp|lld|ld\.lld|clang-tidy|clangd|clang-format|llvm-ar|llvm-ranlib|llvm-symbolizer|llvm-cov|llvm-profdata|llvm-config|lldb|lldb-[0-9]+|lldb-server|lldb-dap|lldb-vscode|lldb-argdumper)$' \
+    | grep -vE '/(clang|clang\+\+|clang-[0-9]+|clang-cpp|lld|ld\.lld|clang-tidy|clangd|clang-format|llvm-ar|llvm-ranlib|llvm-symbolizer|llvm-cov|llvm-profdata|lldb|lldb-[0-9]+|lldb-server|lldb-dap|lldb-argdumper|llvm-strip|llvm-objcopy)$' \
     | xargs rm -f
-find /usr/lib/llvm-${LLVM_VER}/bin/ -type f -executable -exec strip {} \; > /dev/null 2>&1 || true
+find /usr/lib/llvm-${LLVM_VER}/bin/ -type f -executable -not -name "llvm-strip" -not -name "llvm-objcopy" -exec /usr/lib/llvm-${LLVM_VER}/bin/llvm-strip {} \; > /dev/null 2>&1 || true
 
 # 2. /lib - remove unused shared libs, static archives, MLIR, Polly
 echo " -> Removing unused shared/static libraries..."
-# libclang.so (C API, 207 MB) - not linked by any kept binary
+# libclang.so (C API, 207 MB) and libclang-cpp.so (C++ API, 105 MB) - not linked by any kept binary
 rm -f /usr/lib/llvm-${LLVM_VER}/lib/libclang.so*
+rm -f /usr/lib/llvm-${LLVM_VER}/lib/libclang-cpp.so*
 # liblldbIntelFeatures (2 MB) - Intel-specific debug features
 rm -f /usr/lib/llvm-${LLVM_VER}/lib/liblldbIntelFeatures.so*
 # libRemarks.so - optimization remarks API, not needed at runtime
@@ -72,7 +73,10 @@ rm -f /usr/lib/llvm-${LLVM_VER}/lib/LLVMPolly.so
 # All static archives (top-level)
 find /usr/lib/llvm-${LLVM_VER}/lib -maxdepth 1 -name "*.a" -delete > /dev/null 2>&1 || true
 # Strip remaining .so files
-find /usr/lib/llvm-${LLVM_VER}/lib/ -maxdepth 1 -name "*.so*" -type f -exec strip {} \; > /dev/null 2>&1 || true
+find /usr/lib/llvm-${LLVM_VER}/lib/ -maxdepth 1 -name "*.so*" -type f -exec /usr/lib/llvm-${LLVM_VER}/bin/llvm-strip {} \; > /dev/null 2>&1 || true
+
+# Remove llvm-strip and llvm-objcopy as they are no longer needed for the final image
+rm -f /usr/lib/llvm-${LLVM_VER}/bin/llvm-strip /usr/lib/llvm-${LLVM_VER}/bin/llvm-objcopy
 
 # 3. Compiler-RT: remove Fortran runtime and exotic sanitizers, keep core ones
 echo " -> Pruning compiler-rt to essential sanitizers..."
