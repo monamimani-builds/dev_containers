@@ -54,15 +54,16 @@ echo "Reducing LLVM size to a minimal C++ toolchain..."
 # 1. /bin - keep only essential compiling/debugging/linting tools
 echo " -> Pruning unused LLVM binaries..."
 find /usr/lib/llvm-${LLVM_VER}/bin/ -type f \
-    | grep -vE '/(clang|clang\+\+|clang-[0-9]+|clang-cpp|lld|ld\.lld|clang-tidy|clangd|clang-format|llvm-ar|llvm-ranlib|llvm-symbolizer|llvm-cov|llvm-profdata|lldb|lldb-[0-9]+|lldb-server|lldb-dap|lldb-argdumper|llvm-strip|llvm-objcopy)$' \
+    | grep -vE '/(clang|clang\+\+|clang-[0-9]+|clang-cpp|clang-scan-deps|clang-scan-deps-[0-9]+|lld|ld\.lld|clang-tidy|clangd|clang-format|llvm-ar|llvm-ranlib|llvm-symbolizer|llvm-cov|llvm-profdata|lldb|lldb-[0-9]+|lldb-server|lldb-dap|lldb-argdumper|llvm-strip|llvm-objcopy)$' \
     | xargs rm -f
 find /usr/lib/llvm-${LLVM_VER}/bin/ -type f -executable -not -name "llvm-strip" -not -name "llvm-objcopy" -exec /usr/lib/llvm-${LLVM_VER}/bin/llvm-strip {} \; > /dev/null 2>&1 || true
 
 # 2. /lib - remove unused shared libs, static archives, MLIR, Polly
 echo " -> Removing unused shared/static libraries..."
-# libclang.so (C API, 207 MB) and libclang-cpp.so (C++ API, 105 MB) - not linked by any kept binary
+# libclang.so (C API, 207 MB) - not linked by any kept binary
 rm -f /usr/lib/llvm-${LLVM_VER}/lib/libclang.so*
-rm -f /usr/lib/llvm-${LLVM_VER}/lib/libclang-cpp.so*
+# Note: libclang-cpp.so (C++ API, 105 MB) is kept because clang-scan-deps and other tools link against it.
+# rm -f /usr/lib/llvm-${LLVM_VER}/lib/libclang-cpp.so*
 # liblldbIntelFeatures (2 MB) - Intel-specific debug features
 rm -f /usr/lib/llvm-${LLVM_VER}/lib/liblldbIntelFeatures.so*
 # libRemarks.so - optimization remarks API, not needed at runtime
@@ -70,7 +71,8 @@ rm -f /usr/lib/llvm-${LLVM_VER}/lib/libRemarks.so*
 # MLIR and Polly
 find /usr/lib/llvm-${LLVM_VER}/lib -name "libmlir*.so*" -delete > /dev/null 2>&1 || true
 rm -f /usr/lib/llvm-${LLVM_VER}/lib/LLVMPolly.so
-# All static archives (top-level)
+# Keep LLVMgold.so for LTO support with GNU ld
+# All other static archives (top-level)
 find /usr/lib/llvm-${LLVM_VER}/lib -maxdepth 1 -name "*.a" -delete > /dev/null 2>&1 || true
 # Strip remaining .so files
 find /usr/lib/llvm-${LLVM_VER}/lib/ -maxdepth 1 -name "*.so*" -type f -exec /usr/lib/llvm-${LLVM_VER}/bin/llvm-strip {} \; > /dev/null 2>&1 || true
@@ -116,6 +118,7 @@ update-alternatives --install /usr/bin/clang++          clang++          ${LLVM_
 update-alternatives --install /usr/bin/clang-tidy       clang-tidy       ${LLVM_BIN}/clang-tidy       ${LLVM_PRIO}
 update-alternatives --install /usr/bin/clang-format     clang-format     ${LLVM_BIN}/clang-format     ${LLVM_PRIO}
 update-alternatives --install /usr/bin/clangd           clangd           ${LLVM_BIN}/clangd           ${LLVM_PRIO}
+update-alternatives --install /usr/bin/clang-scan-deps  clang-scan-deps  ${LLVM_BIN}/clang-scan-deps  ${LLVM_PRIO}
 update-alternatives --install /usr/bin/lld              lld              ${LLVM_BIN}/lld              ${LLVM_PRIO}
 update-alternatives --install /usr/bin/lldb             lldb             ${LLVM_BIN}/lldb             ${LLVM_PRIO}
 update-alternatives --install /usr/bin/lldb-dap         lldb-dap         ${LLVM_BIN}/lldb-dap         ${LLVM_PRIO}
@@ -153,3 +156,4 @@ ldconfig
 echo "LLVM ${LLVM_VER} installed:"
 clang --version
 lldb --version
+clang-scan-deps --version

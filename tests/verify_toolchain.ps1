@@ -5,7 +5,7 @@ Write-Host "--- Starting Toolchain Verification for $ImageName ---"
 
 # 1. Version Checks
 Write-Host "`n[1/3] Verifying Tool Versions..."
-docker run --rm $ImageName bash -c "gcc --version | head -n 1; g++ --version | head -n 1; clang --version | head -n 1; lldb --version | head -n 1; cmake --version | head -n 1; ninja --version; node --version; doxygen --version"
+docker run --rm $ImageName bash -c "gcc --version | head -n 1; g++ --version | head -n 1; clang --version | head -n 1; lldb --version | head -n 1; clang-scan-deps --version | head -n 1; cmake --version | head -n 1; ninja --version; node --version; doxygen --version"
 if ($LASTEXITCODE -ne 0) { Write-Error "Version check failed!"; exit 1 }
 
 # 2. Build with GCC + ASan/UBSan + LTO (using standard GNU ld)
