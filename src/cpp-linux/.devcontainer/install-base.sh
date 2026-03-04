@@ -19,13 +19,12 @@ Acquire::Queue-Worker::MaxQueue "10";
 EOF
 
 apt-get update
-apt-get upgrade -y
 
 # Core dev tools
 apt-get install -y --no-install-recommends \
     ca-certificates git git-lfs ninja-build ssh \
     graphviz ccache cppcheck valgrind \
-    zip unzip tar xz-utils pkg-config curl gdb
+    zip unzip tar xz-utils binutils pkg-config curl gdb
 
 # Install official Node.js binaries to avoid Debian node-* bloat (~150MB)
 NODE_VER="latest"
@@ -36,6 +35,7 @@ echo "Downloading Node.js ${NODE_VER}..."
 curl -fsSLO "https://nodejs.org/dist/${NODE_VER}/node-${NODE_VER}-linux-x64.tar.xz"
 tar -xf "node-${NODE_VER}-linux-x64.tar.xz" -C /usr/local --strip-components=1 --no-same-owner
 rm -f "node-${NODE_VER}-linux-x64.tar.xz"
+strip /usr/local/bin/node
 
 # Install official Doxygen binary to avoid Ubuntu's libllvm21 dependency (~200MB bloat)
 DOXYGEN_VER="latest"
@@ -48,6 +48,7 @@ curl -fsSLO "https://doxygen.nl/files/doxygen-${DOXYGEN_VER}.linux.bin.tar.gz"
 tar -xzf "doxygen-${DOXYGEN_VER}.linux.bin.tar.gz"
 cp "doxygen-${DOXYGEN_VER}/bin/doxygen" /usr/local/bin/
 rm -rf "doxygen-${DOXYGEN_VER}" "doxygen-${DOXYGEN_VER}.linux.bin.tar.gz"
+strip /usr/local/bin/doxygen
 
 # Purge any base-image leftovers that conflict with our custom installs
 apt-get purge -y cmake 2>/dev/null || true

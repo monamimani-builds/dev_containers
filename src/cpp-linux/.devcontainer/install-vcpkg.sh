@@ -51,7 +51,8 @@ git clone \
 git config --system --add safe.directory "$VCPKG_ROOT"
 git fetch --unshallow
 git pull --ff-only
-bootstrap-vcpkg.sh
+./bootstrap-vcpkg.sh
+rm -rf /tmp/vcpkg
 popd
 
 # Add to bashrc/zshrc files for all users.

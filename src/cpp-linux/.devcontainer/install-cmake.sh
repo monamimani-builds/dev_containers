@@ -19,7 +19,8 @@ chmod +x cmake-${CMAKE_VER}-linux-x86_64.sh
 ./cmake-${CMAKE_VER}-linux-x86_64.sh --skip-license --prefix=/usr/local --exclude-subdir
 rm -f cmake-${CMAKE_VER}-linux-x86_64.sh
 
-# Remove CMake HTML documentation (~58 MB)
+# Remove CMake GUI (33 MB) and HTML documentation (~58 MB)
+rm -f /usr/local/bin/cmake-gui
 rm -rf /usr/local/doc/cmake*
 
 echo "CMake installed:"
