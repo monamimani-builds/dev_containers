@@ -22,7 +22,7 @@ apt-get update
 
 # Core dev tools
 apt-get install -y --no-install-recommends \
-    ca-certificates git git-lfs ninja-build ssh \
+    ca-certificates git git-lfs ninja-build ssh wget \
     graphviz ccache cppcheck valgrind dotnet-runtime-10.0\
     zip unzip tar xz-utils binutils pkg-config curl gdb
 
