@@ -33,7 +33,7 @@ on:
       - dev
       - main
     paths:
-      - 'src/cpp/**'
+      - 'src/cpp-linux/**'
       - '.github/workflows/cicd-cpp.yml'
 
 permissions:
