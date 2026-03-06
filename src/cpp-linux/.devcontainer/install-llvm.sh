@@ -71,7 +71,10 @@ rm -f /usr/lib/llvm-${LLVM_VER}/lib/libRemarks.so*
 # MLIR and Polly
 find /usr/lib/llvm-${LLVM_VER}/lib -name "libmlir*.so*" -delete > /dev/null 2>&1 || true
 rm -f /usr/lib/llvm-${LLVM_VER}/lib/LLVMPolly.so
-# Keep LLVMgold.so for LTO support with GNU ld
+
+# LLVMgold.so is no longer shipped in recent LLVM releases.
+# To support LTO, we configure clang to use lld by default later in this script.
+
 # All other static archives (top-level)
 find /usr/lib/llvm-${LLVM_VER}/lib -maxdepth 1 -name "*.a" -delete > /dev/null 2>&1 || true
 # Strip remaining .so files
@@ -128,6 +131,12 @@ update-alternatives --install /usr/bin/llvm-ranlib      llvm-ranlib      ${LLVM_
 update-alternatives --install /usr/bin/llvm-cov         llvm-cov         ${LLVM_BIN}/llvm-cov         ${LLVM_PRIO}
 update-alternatives --install /usr/bin/llvm-profdata    llvm-profdata    ${LLVM_BIN}/llvm-profdata    ${LLVM_PRIO}
 update-alternatives --install /usr/bin/llvm-symbolizer  llvm-symbolizer  ${LLVM_BIN}/llvm-symbolizer  ${LLVM_PRIO}
+
+# +-----------------------------+
+# | Configure Clang Defaults    |
+# +-----------------------------+
+echo "-fuse-ld=lld" > ${LLVM_BIN}/clang.cfg
+echo "-fuse-ld=lld" > ${LLVM_BIN}/clang++.cfg
 
 # +-----------------------------+
 # | Purge temp deps             |
